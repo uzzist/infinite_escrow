@@ -17,7 +17,7 @@ class TransactionModel {
   }
   static fromJsonToList( List<dynamic> data){
     return data.map((e) {
-      return TransactionModel(amount: double.tryParse(e['amount']) ?? 0.0, status:  e['status'] != null ? int.parse(e['status']): 0,
+      return TransactionModel(amount: double.tryParse(e['amount']) ?? 0.0, status:  e['status'] != null ? int.parse(e['status'].toString()): 0,
           createdAt: DateTime.parse(e['created_at']), id: int.tryParse( e['id'].toString()) ?? 0, currency: e['currency_sym'] ?? 'NGN',
           title: e['title']
       );

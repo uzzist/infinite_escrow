@@ -39,7 +39,7 @@ class EscrowDetail{
   static fromJson(dynamic data, dynamic body){
     return EscrowDetail(amount: double.parse(data['amount'].toString()), status: int.tryParse(data['status'].toString())?? 0,
         createdAt: DateTime.parse(data['created_at']), id: int.tryParse(data['id'].toString())?? 0 , currency:  data['currency_sym'] ?? 'NGR',
-        title: data['title'],  sellerId: int.tryParse( data['seller_id']) ?? 0,  buyerId: int.tryParse(data['buyer_id'].toString())??0,
+        title: data['title'],  sellerId: int.tryParse( data['seller_id'].toString()) ?? 0,  buyerId: int.tryParse(data['buyer_id'].toString())??0,
         creatorId: int.tryParse(data['creator_id'].toString())??0,
       paidAmount: double.tryParse(data['paid_amount'].toString())?? 0.0,
       chargePayer: int.tryParse(data['charge_payer'].toString()) ?? 0,  categoryId: int.tryParse(data['category_id'].toString()) ?? 0,  charge:double.tryParse( data['charge'].toString()) ?? 0.0,  buyerCharge:double.parse( data['buyer_charge'].toString()),

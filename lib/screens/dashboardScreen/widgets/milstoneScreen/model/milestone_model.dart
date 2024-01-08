@@ -11,8 +11,8 @@ class MilestoneModel{
     required this.status, required this.createdAt,required this.id});
   static fromList(List<dynamic> data){
     return data.map((e) => MilestoneModel(note: e['note'], amount: double.parse(e['amount']).toString() , methodCurrency: e['currency'] ?? 'NGN',
-        status: e['payment_status']!= null? int.parse(e['payment_status']): 0, createdAt: DateTime.parse(e['created_at']),
-      id: e['escrow_id'] != null? int.parse(e['escrow_id']): 0,
+        status: e['payment_status']!= null? int.parse(e['payment_status'].toString()): 0, createdAt: DateTime.parse(e['created_at']),
+      id: e['escrow_id'] != null? int.parse(e['escrow_id'].toString()): 0,
     )).toList();
   }
   getStatusString(){

@@ -11,4 +11,12 @@ class ColorConstant {
   static Color scaffoldColor = const Color(0xffE5E5E5);
   static Color dividerColor =  const Color(0xff293644);
   static Color lightGreen2 = const  Color(0xff85F35E);
+  static Color lightPurple = const  Color(0xffF2E7F6);
+  static Color purple = const  Color(0xffC798EF);
+  static Color lightTurquoise = const  Color(0xffE7F6F1);
+  static Color turquoise = const  Color(0xff1DC2CC);
+  static Color lightMustard = const  Color(0xffF6F1E7);
+  static Color mustard = const  Color(0xffEBC06C);
+  static Color lightPink = const  Color(0xffF6E7E7);
+  static Color pink = const  Color(0xffE98787);
 }

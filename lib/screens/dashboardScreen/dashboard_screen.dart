@@ -24,10 +24,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     var http = HttpRequest();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SnackBarMessage.showLoading(context);
-       http.getUser().then((value) {
-         profile = value;
-         context.read<BaseState>().updateProfile(value);
-       });
+      http.getUser().then((value) {
+        profile = value;
+        context.read<BaseState>().updateProfile(value);
+      });
       var t = http.getCurrency();
       if (t != null) {
         setState(() {
@@ -71,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorConstant.scaffoldColor,
+        backgroundColor: ColorConstant.white,
         iconTheme: IconThemeData(
           color: ColorConstant.black,
         ),
@@ -153,7 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: context.watch<BaseState>().profile?.image != null
                           ? Image.network(
                         context.watch<BaseState>().profile?.image ?? '',
-                              fit: BoxFit.cover,
+                        fit: BoxFit.cover,
                         loadingBuilder: (BuildContext context, Widget child,
                             ImageChunkEvent? loadingProgress) {
                           if (loadingProgress == null) return child;
@@ -168,10 +168,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           );
                         },
                       )
-                      : SvgPicture.asset(
-                          ImageConstant.profilePicture,
-                          fit: BoxFit.cover,
-                        ),
+                          : SvgPicture.asset(
+                        ImageConstant.profilePicture,
+                        fit: BoxFit.cover,
+                      ),
                     )),
                 SizedBox(
                   height: 10,
@@ -274,7 +274,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      backgroundColor: ColorConstant.scaffoldColor,
+      backgroundColor: ColorConstant.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -290,6 +290,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   image: ImageConstant.balance,
                   title: "Your Balance",
                   price: states?.balance.toString() ?? '0',
+                  backgroundColor: ColorConstant.lightPurple,
+                  iconColor: ColorConstant.purple,
+                  iconContainerColor: ColorConstant.white,
                 ),
               ),
               SizedBox(
@@ -304,6 +307,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   image: ImageConstant.deposit,
                   title: "Deposit",
                   price: states?.depositAmount.toString() ?? '0',
+                  backgroundColor: ColorConstant.lightTurquoise,
+                  iconColor: ColorConstant.turquoise,
+                  iconContainerColor: ColorConstant.white,
                 ),
               ),
               SizedBox(
@@ -318,6 +324,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   image: ImageConstant.withdraw,
                   title: "Withdrawal",
                   price: states?.withdrawAmount.toString() ?? '0',
+                  backgroundColor: ColorConstant.lightMustard,
+                  iconColor: ColorConstant.mustard,
+                  iconContainerColor: ColorConstant.white,
                 ),
               ),
               SizedBox(
@@ -332,6 +341,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   image: ImageConstant.milestone,
                   title: "Milestone funded",
                   price: states?.milestoneAmount.toString() ?? '0',
+                  backgroundColor: ColorConstant.lightPink,
+                  iconColor: ColorConstant.pink,
+                  iconContainerColor: ColorConstant.white,
                 ),
               ),
               SizedBox(
@@ -358,9 +370,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                    ColorConstant.lightGreen,
-                    ColorConstant.lightGreen2
-                  ])),
+                        ColorConstant.lightGreen,
+                        ColorConstant.lightGreen2
+                      ])),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -368,7 +380,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(136, 144, 152, 0.2),
+                            color: Color.fromRGBO(136, 144, 152, 0.2),
+                            shape: BoxShape.circle
                         ),
                         child: SvgPicture.asset(
                           ImageConstant.time,

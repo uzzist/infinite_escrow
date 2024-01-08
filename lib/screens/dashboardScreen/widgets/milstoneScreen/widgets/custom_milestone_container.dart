@@ -12,7 +12,7 @@ Container customMilestoneContainer({
   required int id,
 }) {
   return Container(
-    height: 125,
+    height: 130,
     width: double.infinity,
     padding: EdgeInsets.all(10),
     decoration: BoxDecoration(color: ColorConstant.white, boxShadow: [

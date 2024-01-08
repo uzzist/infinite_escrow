@@ -209,7 +209,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                             model?.title ?? '',
                             style: TextStyle(
                                 color: ColorConstant.midNight,
-                                fontSize: 16,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w700),
                           ),
                           Container(

@@ -1,4 +1,3 @@
-
 import 'package:infinite_escrow/routes/routes.dart';
 
 
@@ -7,13 +6,16 @@ Container customCurrencyContainer({
   required String title,
   required String price,
   required String currecy,
+  Color? backgroundColor,
+  Color? iconContainerColor,
+  Color? iconColor,
   bool currencyShow = true,
 }) {
   return Container(
     height: 80,
     width: Get.width,
     padding: EdgeInsets.all(10),
-    decoration: BoxDecoration(color: ColorConstant.white, boxShadow: [
+    decoration: BoxDecoration(color: backgroundColor ?? ColorConstant.white, boxShadow: [
       BoxShadow(
         color: ColorConstant.black.withOpacity(0.1),
         spreadRadius: 0,
@@ -28,11 +30,13 @@ Container customCurrencyContainer({
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Color.fromRGBO(136, 144, 152, 0.2),
+              color: iconContainerColor ?? Color.fromRGBO(136, 144, 152, 0.2),
+              shape: BoxShape.circle
           ),
           child: SvgPicture.asset(
             image,
             fit: BoxFit.scaleDown,
+            color: iconColor ?? Colors.black,
           ),
         ),
         SizedBox(
@@ -74,12 +78,12 @@ Container customCurrencyContainer({
             ),
             currencyShow == true
                 ? SvgPicture.asset(
-                  currencyImageByName[currecy]!,
-                    fit: BoxFit.scaleDown,
-                    height: 16,
-                    width: 7,
-                    // color: ColorConstant.grey,
-                  )
+              currencyImageByName[currecy]!,
+              fit: BoxFit.scaleDown,
+              height: 16,
+              width: 7,
+              // color: ColorConstant.grey,
+            )
                 : SizedBox(),
             SizedBox(
               width: 5,

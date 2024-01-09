@@ -9,7 +9,8 @@ import 'package:infinite_escrow/routes/routes.dart';
 class SellerInfoScreen extends StatefulWidget {
   NewEscrowController newEscrowController;
   String coin;
-  SellerInfoScreen({Key? key, required this.newEscrowController, required this.coin}) : super(key: key);
+  String escrowType;
+  SellerInfoScreen({Key? key, required this.newEscrowController, required this.coin, required this.escrowType}) : super(key: key);
 
   @override
   State<SellerInfoScreen> createState() => _SellerInfoScreenState();
@@ -72,6 +73,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                       title: data['title'].toString() ?? '',
                         tTitle: "New Escrow submitted successfully",
                         coin: widget.coin.toString(),
+                        escrowType: widget.escrowType,
                       ));
                     }else{
                       SnackBarMessage.errorSnackbar(context, value.message);
@@ -111,6 +113,46 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                   children: [
                     Text(
                       "Charge",
+                      style: TextStyle(
+                          color: ColorConstant.midNight,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Row(
+                      children: [
+                        // Text(
+                        //   widget.newEscrowController.value,
+                        //   style: TextStyle(
+                        //       color: ColorConstant.midNight,
+                        //       fontSize: 20,
+                        //       fontWeight: FontWeight.w600),
+                        // ),
+                        Text(
+                          widget.newEscrowController.charge,
+                          style: TextStyle(
+                              color: ColorConstant.midNight,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          widget.coin,
+                          style: TextStyle(
+                              color: ColorConstant.midNight,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Escrow Amount",
                       style: TextStyle(
                           color: ColorConstant.midNight,
                           fontSize: 14,

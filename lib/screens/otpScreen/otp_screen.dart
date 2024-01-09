@@ -120,8 +120,8 @@ class _OTPScreenState extends State<OTPScreen> {
                       onPressed:  loading ? (){}:  () {
                         var otp = controller.map((e) => e?.value.text).join('');
                         var data = {
-                            'code': otp.toString(),
-                            'email': widget.email.toString()
+                          'email_verified_code': otp.toString(),
+                          'email': widget.email.toString()
                         };
                         if(widget.type == 3){
                           data['type'] = 'phone';
@@ -141,7 +141,7 @@ class _OTPScreenState extends State<OTPScreen> {
                               navigateToPage(ChangePassword(isForget: true, email: widget.email ?? '', token: value.data['data']['token'] ?? '',));
                             }else{
                               if(widget.type != 3){
-                                http.sendVerification(widget.email ?? '', 'phone');
+                                //http.sendVerification(widget.email ?? '', 'phone');
                                 SnackBarMessage.successSnackbar(context,
                                     "Email Verify successfully");
                                 setState(() {
@@ -215,14 +215,14 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                       ),
                     ) : Text(
-                  "Send again ( $seconds )",
-                  style: TextStyle(
-                    color: ColorConstant.darkestGrey,
-                    fontSize: 15,
-                    fontFamily: FontConstant.jakartaSemiBold,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ))
+                      "Send again ( $seconds )",
+                      style: TextStyle(
+                        color: ColorConstant.darkestGrey,
+                        fontSize: 15,
+                        fontFamily: FontConstant.jakartaSemiBold,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ))
               ],
             ),
           ),

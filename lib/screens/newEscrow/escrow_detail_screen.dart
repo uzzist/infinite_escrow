@@ -107,6 +107,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                                     child: TextButton(
                                         onPressed: () {
                                           if (model?.status != 2) {
+                                            Get.back();
                                             SnackBarMessage.errorSnackbar(
                                                 context,
                                                 'You can not cancel this escrow');

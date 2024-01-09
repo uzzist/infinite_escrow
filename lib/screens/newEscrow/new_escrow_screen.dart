@@ -31,8 +31,21 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                   } else if (newEscrowController.value == '') {
                     SnackBarMessage.errorSnackbar(context, "price is required");
                   } else {
+                    if(coin == 'Naira') {
+                      if(int.parse(newEscrowController.value) < 10000) {
+                        newEscrowController.charge = '250';
+                      } else if(int.parse(newEscrowController.value) > 10000) {
+                        newEscrowController.charge = (int.parse(newEscrowController.value) * 0.03).toStringAsFixed(3);
+                      }
+                    } else {
+                      if(int.parse(newEscrowController.value) < 100) {
+                        newEscrowController.charge = '2';
+                      } else if(int.parse(newEscrowController.value) > 100) {
+                        newEscrowController.charge = (int.parse(newEscrowController.value) * 0.03).toStringAsFixed(3);
+                      }
+                    }
                     navigateToPage(SellerInfoScreen(
-                        newEscrowController: newEscrowController, coin: coin));
+                        newEscrowController: newEscrowController, coin: coin, escrowType: textEditingController.text,));
                   }
                 },
                 child: Row(

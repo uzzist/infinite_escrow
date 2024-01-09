@@ -5,7 +5,8 @@ class EscrowWithdrawScreen extends StatelessWidget {
   String tTitle;
   String price;
   String coin;
-  EscrowWithdrawScreen({super.key,required this.tTitle,  required this.title, required this.price, required this.coin});
+  String escrowType;
+  EscrowWithdrawScreen({super.key,required this.tTitle,  required this.title, required this.price, required this.coin, required this.escrowType});
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +101,7 @@ class EscrowWithdrawScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    "Car Purchase",
+                    "$escrowType",
                     style: TextStyle(
                         color: ColorConstant.midNight,
                         fontSize: 15,

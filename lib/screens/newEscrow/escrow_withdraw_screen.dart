@@ -6,7 +6,8 @@ class EscrowWithdrawScreen extends StatelessWidget {
   String price;
   String coin;
   String escrowType;
-  EscrowWithdrawScreen({super.key,required this.tTitle,  required this.title, required this.price, required this.coin, required this.escrowType});
+  bool isSeller;
+  EscrowWithdrawScreen({super.key,required this.tTitle,  required this.title, required this.price, required this.coin, required this.escrowType, required this.isSeller});
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +94,14 @@ class EscrowWithdrawScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  isSeller ? Text(
                     "As a Seller",
+                    style: TextStyle(
+                        color: ColorConstant.midNight,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  ) : Text(
+                    "As a Buyer",
                     style: TextStyle(
                         color: ColorConstant.midNight,
                         fontSize: 15,

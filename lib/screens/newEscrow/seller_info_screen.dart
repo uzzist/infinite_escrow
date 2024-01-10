@@ -74,6 +74,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                         tTitle: "New Escrow submitted successfully",
                         coin: widget.coin.toString(),
                         escrowType: widget.escrowType,
+                        isSeller: widget.newEscrowController.isSeller.value,
                       ));
                     }else{
                       SnackBarMessage.errorSnackbar(context, value.message);

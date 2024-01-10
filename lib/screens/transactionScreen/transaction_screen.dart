@@ -14,12 +14,20 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   List<TransactionModel> listModels = [];
+  List<TransactionModel> filteredListModel = [];
   bool loading = false;
+  RxString coin = "Naira".obs;
 
   @override
   void initState() {
     super.initState();
     var http = HttpRequest();
+    var t = http.getCurrency();
+    if (t != null) {
+      setState(() {
+        coin.value = t;
+      });
+    }
     setState(() {
       loading = true;
     });
@@ -31,6 +39,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
         setState(() {
           listModels = TransactionModel.fromJsonToList(
               value.data['data']['escrows']['data']);
+
+          filteredListModel = listModels.where((element) {
+            return element.currency == 'NGN';
+          }).toList();
         });
       } else {
         SnackBarMessage.errorSnackbar(context, value.message);
@@ -41,44 +53,91 @@ class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(
-        title: "Transactions",
-        isIconShow: widget.isIconShow,
+      appBar: AppBar(
+        backgroundColor: ColorConstant.white,
+        iconTheme: IconThemeData(
+          color: ColorConstant.black,
+        ),
+        elevation: 0,
+        title: Text('Transactions', style: TextStyle(
+            color: ColorConstant.black,
+            fontSize: 15,
+            fontWeight: FontWeight.w600)),
+        centerTitle: true,
+        actions: [
+          SvgPicture.asset(currencyImageByName[coin.value]!),
+          IconButton(
+              onPressed: () {
+                customCurrencyBottomSheet(
+                    context, coin, "Select currency wallet??", (e) {
+                  setState(() {
+                    coin.value = e;
+                    if(coin.value == "Naira") {
+                      filteredListModel = listModels.where((element) {
+                        return element.currency == 'NGN';
+                      }).toList();
+                    } else if(coin.value == "Dollar") {
+                      filteredListModel = listModels.where((element) {
+                        return element.currency == 'USD';
+                      }).toList();
+                    } else if(coin.value == "USDC") {
+                      filteredListModel = listModels.where((element) {
+                        return element.currency == 'USDC';
+                      }).toList();
+                    } else if(coin.value == "Ethereum") {
+                      filteredListModel = listModels.where((element) {
+                        return element.currency == 'ETH';
+                      }).toList();
+                    } else {
+                      filteredListModel = listModels.where((element) {
+                        return element.currency == 'BTC';
+                      }).toList();
+                    }
+
+                  });
+                  Navigator.pop(context);
+                });
+              },
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                color: ColorConstant.darkestGrey,
+              ))
+        ],
       ),
-      body: listModels.length == 0
+      body: filteredListModel.length == 0
           ? Center(
-              child: loading
-                  ? CircularProgressIndicator(
-                      color: ColorConstant.darkestGrey,
-                    )
-                  : Image.asset(
-                      ImageConstant.noTransaction,
-                      width: 127,
-                    ),
-            )
+        child: loading
+            ? CircularProgressIndicator(
+          color: ColorConstant.darkestGrey,
+        )
+            : Image.asset(
+          ImageConstant.noTransaction,
+          width: 127,
+        ),
+      )
           : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (var i in listModels)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: customTransactionContainer(
-                          title: i.title,
-                          price: i.amount.toString(),
-                          containerColor: i.getStatusColor(),
-                          containerTitle: i.getStatusString(),
-                          currencyName: i.currency,
-                          id: i.id,
-                          date: i.createdAt,
-                        ),
-                      )
-                  ],
-                ),
-              ),
-            ),
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var i in filteredListModel)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: customTransactionContainer(
+                    title: i.title,
+                    price: i.amount.toString(),
+                    containerColor: i.getStatusColor(),
+                    containerTitle: i.getStatusString(),
+                    currencyName: i.currency,
+                    id: i.id,
+                    date: i.createdAt,
+                  ),
+                )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

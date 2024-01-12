@@ -32,7 +32,6 @@ class _OTPScreenState extends State<OTPScreen> {
         seconds--;
       });
 
-      // You can cancel the periodic timer based on certain conditions
       if (seconds == 0) {
         setState(() {
           resend = true;
@@ -148,6 +147,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                   widget.type = 3;
                                   cleartext = true;
                                 });
+                                navigateToOffAllNextPage(LoginScreen());
                                 // navigateToPage(OTPScreen(type: 2, phone: widget.phone ?? '',));
                               }else{
                                 SnackBarMessage.successSnackbar(context, 'Account verified SuccessFully');

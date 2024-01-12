@@ -26,6 +26,7 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
       Future.wait([all, pending]).then((value) {
         Navigator.pop(context);
         if (value[0].success == true) {
+          print(value[0].data);
           setState(() {
             listModels = DepositModel.fromList(value[0].data['data']['data']);
             listPendingModels =

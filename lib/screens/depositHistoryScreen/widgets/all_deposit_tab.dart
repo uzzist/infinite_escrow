@@ -18,7 +18,10 @@ class AllDepositTab extends StatelessWidget {
               price: i.amount,
               sId: i.trx,
               gateway: i.gatewayAlias,
-              title: '', currencyName: i.methodCurrency, id: 0, date: i.createdAt
+              title: '',
+              currencyName: i.methodCurrency,
+              id: 0,
+              date: i.createdAt
           ),)
         ],
       ),

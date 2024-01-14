@@ -1,5 +1,6 @@
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/routes/routes.dart';
+import 'package:infinite_escrow/screens/paymentScreen/stripe.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/messages.dart';
@@ -8,6 +9,7 @@ import 'model/deposite_methord.dart';
 class NewDepositScreen extends StatefulWidget {
   int type;
   String title;
+
   NewDepositScreen({super.key, required this.type, required this.title});
 
   @override
@@ -22,6 +24,7 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
   String min = '0.0';
   bool loading = false;
   NewDepositController depositController = NewDepositController();
+
   @override
   void initState() {
     super.initState();
@@ -43,9 +46,9 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -57,59 +60,83 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
             width: double.infinity,
             decoration: BoxDecoration(color: ColorConstant.lightGreen),
             child: TextButton(
-                onPressed: loading? (){}: () {
-                  if(depositController.value == 0){
-                    SnackBarMessage.errorSnackbar(context, "Please add Amount");
-                    return;
-                  }
-                  setState(() {
-                    loading = true;
-                  });
-                  var d = list.firstWhere((element) => element.name == depositController.dropdownvalue.value);
-                  var http = HttpRequest();
-                  var data = {'method_code': d.methodCode.toString(), 'currency': depositController.currency.value,
-                    'amount': depositController.value.toString()
-                  };
-                  ( widget.type == 1? http.submitDeposit(data): http.submitWithdraw(data) ).then((value) async {
-                    setState(() {
-                      loading = false;
-                    });
-                    if(value.success){
-                      if(widget.type == 2){
-                        if(d.isCrypto){
-                          navigateToPage(WithdrawWalletScreen(id: value.data['withdraw']['id']));
-                        }else{
-                          navigateToPage(WithdrawPaymentScreen(id: value.data['withdraw']['id']));
+                onPressed: loading
+                    ? () {}
+                    : () {
+                        if (depositController.value == 0) {
+                          SnackBarMessage.errorSnackbar(
+                              context, "Please add Amount");
+                          return;
                         }
-                      }else{
-                        if(value.data['data']['redirect'] != null){
-                          var u = value.data['data']['redirect'] as String ?? '';
-                          var d = u.replaceAll('https://', '').replaceAll('/', '\\');
-                          final Uri url = Uri.parse(u);
-                          if (!await launchUrl(
-                          url,
-                          mode: LaunchMode.externalApplication,
-                          )) {
-                            SnackBarMessage.errorSnackbar(context, 'Something went Wrong!');
+                        setState(() {
+                          loading = true;
+                        });
+                        var d = list.firstWhere((element) =>
+                            element.name ==
+                            depositController.dropdownvalue.value);
+                        var http = HttpRequest();
+                        var data = {
+                          'method_code': d.methodCode.toString(),
+                          'currency': depositController.currency.value,
+                          'amount': depositController.value.toString()
+                        };
+                        (widget.type == 1
+                                ? http.submitDeposit(data)
+                                : http.submitWithdraw(data))
+                            .then((value) async {
+                          setState(() {
+                            loading = false;
+                          });
+                          if (value.success) {
+                            if (widget.type == 2) {
+                              if (d.isCrypto) {
+                                navigateToPage(WithdrawWalletScreen(
+                                    id: value.data['withdraw']['id']));
+                              } else {
+                                navigateToPage(WithdrawPaymentScreen(
+                                    id: value.data['withdraw']['id']));
+                              }
+                            } else {
+                              if (value.data['data']['redirect'] != null) {
+                                var u =
+                                    value.data['data']['redirect'] as String ??
+                                        '';
+                                var d = u
+                                    .replaceAll('https://', '')
+                                    .replaceAll('/', '\\');
+                                final Uri url = Uri.parse(u);
+                                if (!await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                )) {
+                                  SnackBarMessage.errorSnackbar(
+                                      context, 'Something went Wrong!');
+                                }
+                              } else {
+                                // navigateToPage(
+                                //     NewWithdrawLOGScreen(title: widget.title));
+                                navigateToPage(StripePaymentScreen());
+                              }
                             }
-                        }else{
-                          navigateToPage(NewWithdrawLOGScreen(title: widget.title));
-                        }
-                      }
-                    }else{
-                      SnackBarMessage.errorSnackbar(context, value.message);
-                    }
-                  });
-                },
+                          } else {
+                            SnackBarMessage.errorSnackbar(
+                                context, value.message);
+                          }
+                        });
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    loading? CircularProgressIndicator(color: Colors.white,): Text("Submit",
-                        style: TextStyle(
-                            color: ColorConstant.midNight,
-                            fontSize: 17,
-                            fontFamily: FontConstant.jakartaSemiBold,
-                            fontWeight: FontWeight.w700)),
+                    loading
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text("Submit",
+                            style: TextStyle(
+                                color: ColorConstant.midNight,
+                                fontSize: 17,
+                                fontFamily: FontConstant.jakartaSemiBold,
+                                fontWeight: FontWeight.w700)),
                     SizedBox(width: 10),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
@@ -163,16 +190,22 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                       // After selecting the desired option,it will
                       // change button value to selected value
                       onChanged: (newValue) {
-                        var f = list.firstWhere((element) => element.name == newValue);
-                        if(f != null){
-                          var chargesc = ( f.fixedCharge + (depositController.value * f.percentCharge ) / 100 );
+                        var f = list
+                            .firstWhere((element) => element.name == newValue);
+                        if (f != null) {
+                          var chargesc = (f.fixedCharge +
+                              (depositController.value * f.percentCharge) /
+                                  100);
                           setState(() {
                             charges = chargesc.toString();
-                            payable = ( chargesc + depositController.value  ).toString();
-                            if(widget.type == 1){
-                              payable = ( chargesc + depositController.value  ).toString();
-                            }else{
-                              payable = ( depositController.value - chargesc ).toString();
+                            payable =
+                                (chargesc + depositController.value).toString();
+                            if (widget.type == 1) {
+                              payable = (chargesc + depositController.value)
+                                  .toString();
+                            } else {
+                              payable = (depositController.value - chargesc)
+                                  .toString();
                             }
                             depositController.currency.value = f.currency;
                             max = f.maxAmount;
@@ -198,20 +231,22 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                 ),
                 child: TextFormField(
                   keyboardType: TextInputType.number,
-                  onChanged: (e){
+                  onChanged: (e) {
                     var val = 0.0;
-                    if(e != ''){
+                    if (e != '') {
                       val = double.parse(e);
                     }
-                    var f = list.firstWhere((element) => element.name == depositController.dropdownvalue.value);
-                    if(f != null){
-                      var chargesc = ( f.fixedCharge + (val * f.percentCharge ) / 100 );
+                    var f = list.firstWhere((element) =>
+                        element.name == depositController.dropdownvalue.value);
+                    if (f != null) {
+                      var chargesc =
+                          (f.fixedCharge + (val * f.percentCharge) / 100);
                       setState(() {
                         charges = chargesc.toString();
-                        if(widget.type == 1){
-                          payable = ( chargesc + val  ).toString();
-                        }else{
-                          payable = ( val - chargesc ).roundToDouble().toString();
+                        if (widget.type == 1) {
+                          payable = (chargesc + val).toString();
+                        } else {
+                          payable = (val - chargesc).roundToDouble().toString();
                         }
                         depositController.currency.value = f.currency;
                         max = f.maxAmount;

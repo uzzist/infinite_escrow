@@ -1,11 +1,22 @@
+import 'package:infinite_escrow/core/http.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infinite_escrow/routes/routes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/messages.dart';
 
 class StripePaymentScreen extends StatefulWidget {
-  const StripePaymentScreen({Key? key}) : super(key: key);
+
+  String methodCode;
+  String currency;
+  String amount;
+  int type;
+  bool isCrypto;
+  String title;
+
+  StripePaymentScreen({required this.methodCode, required this.currency, required this.amount, required this.type, required this.isCrypto, required this.title});
 
   @override
   State<StripePaymentScreen> createState() => _StripePaymentScreenState();
@@ -22,8 +33,12 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             customTextField(hintText: 'Name on card', prefixIcon: ''),
+            SizedBox(
+              height: 20,
+            ),
             TextFormField(
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -57,70 +72,87 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
               maxLength: 19,
               onChanged: (value) {},
             ),
-            TextFormField(
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                MonthYearInputFormatter()
-              ],
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-
-              decoration: InputDecoration(
-                counterText: "",
-                hintText: 'MM / YYYY',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  borderSide: BorderSide(
-                    color: ColorConstant.grey,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  borderSide: BorderSide(
-                    color: ColorConstant.grey,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  borderSide: BorderSide(
-                    color: ColorConstant.grey,
-                  ),
-                ),
-              ),
-              maxLength: 19,
-              onChanged: (value) {},
+            SizedBox(
+              height: 20,
             ),
-            TextFormField(
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      MonthYearInputFormatter()
+                    ],
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                  
+                    decoration: InputDecoration(
+                      counterText: "",
+                      hintText: 'MM / YYYY',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: ColorConstant.grey,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: ColorConstant.grey,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: ColorConstant.grey,
+                        ),
+                      ),
+                    ),
+                    maxLength: 19,
+                    onChanged: (value) {},
+                  ),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: TextFormField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                  
+                    decoration: InputDecoration(
+                      counterText: "",
+                      hintText: 'CVC',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: ColorConstant.grey,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: ColorConstant.grey,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide: BorderSide(
+                          color: ColorConstant.grey,
+                        ),
+                      ),
+                    ),
+                    maxLength: 3,
+                    onChanged: (value) {},
+                  ),
+                ),
               ],
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-
-              decoration: InputDecoration(
-                counterText: "",
-                hintText: 'CVC',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  borderSide: BorderSide(
-                    color: ColorConstant.grey,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  borderSide: BorderSide(
-                    color: ColorConstant.grey,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  borderSide: BorderSide(
-                    color: ColorConstant.grey,
-                  ),
-                ),
-              ),
-              maxLength: 3,
-              onChanged: (value) {},
+            ),
+            SizedBox(
+              height: 40,
             ),
         Container(
           height: 56,
@@ -130,10 +162,57 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
               onPressed: loading
                   ? () {}
                   : () {
-                  // var http = HttpRequest();
-                  // setState(() {
-                  //   loading = true;
-                  // });
+                  var http = HttpRequest();
+                  setState(() {
+                    loading = true;
+                  });
+                  var data = {
+                    'method_code': widget.methodCode,
+                    'currency': widget.currency,
+                    'amount': widget.amount
+                  };
+                  (widget.type == 1
+                      ? http.submitDeposit(data)
+                      : http.submitWithdraw(data))
+                      .then((value) async {
+                    setState(() {
+                      loading = false;
+                    });
+                    if (value.success) {
+                      if (widget.type == 2) {
+                        if (widget.isCrypto) {
+                          navigateToPage(WithdrawWalletScreen(
+                              id: value.data['withdraw']['id']));
+                        } else {
+                          navigateToPage(WithdrawPaymentScreen(
+                              id: value.data['withdraw']['id']));
+                        }
+                      } else {
+                        if (value.data['data']['redirect'] != null) {
+                          var u =
+                              value.data['data']['redirect'] as String ??
+                                  '';
+                          var d = u
+                              .replaceAll('https://', '')
+                              .replaceAll('/', '\\');
+                          final Uri url = Uri.parse(u);
+                          if (!await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          )) {
+                            SnackBarMessage.errorSnackbar(
+                                context, 'Something went Wrong!');
+                          }
+                        } else {
+                          navigateToPage(
+                              NewWithdrawLOGScreen(title: widget.title));
+                        }
+                      }
+                    } else {
+                      SnackBarMessage.errorSnackbar(
+                          context, value.message);
+                    }
+                  });
               },
               child: loading
                   ? CircularProgressIndicator(

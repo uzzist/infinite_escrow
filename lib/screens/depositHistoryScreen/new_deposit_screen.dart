@@ -1,5 +1,6 @@
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/routes/routes.dart';
+import 'package:infinite_escrow/screens/paymentScreen/paystack.dart';
 import 'package:infinite_escrow/screens/paymentScreen/stripe.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,54 +76,73 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                             element.name ==
                             depositController.dropdownvalue.value);
                         var http = HttpRequest();
-                        var data = {
-                          'method_code': d.methodCode.toString(),
-                          'currency': depositController.currency.value,
-                          'amount': depositController.value.toString()
-                        };
-                        (widget.type == 1
-                                ? http.submitDeposit(data)
-                                : http.submitWithdraw(data))
-                            .then((value) async {
-                          setState(() {
-                            loading = false;
-                          });
-                          if (value.success) {
-                            if (widget.type == 2) {
-                              if (d.isCrypto) {
-                                navigateToPage(WithdrawWalletScreen(
-                                    id: value.data['withdraw']['id']));
-                              } else {
-                                navigateToPage(WithdrawPaymentScreen(
-                                    id: value.data['withdraw']['id']));
-                              }
-                            } else {
-                              if (value.data['data']['redirect'] != null) {
-                                var u =
-                                    value.data['data']['redirect'] as String ??
-                                        '';
-                                var d = u
-                                    .replaceAll('https://', '')
-                                    .replaceAll('/', '\\');
-                                final Uri url = Uri.parse(u);
-                                if (!await launchUrl(
-                                  url,
-                                  mode: LaunchMode.externalApplication,
-                                )) {
-                                  SnackBarMessage.errorSnackbar(
-                                      context, 'Something went Wrong!');
+                        if(depositController.currency.value == "USD") {
+                          navigateToPage(StripePaymentScreen(
+                            methodCode: d.methodCode.toString(),
+                            currency: depositController.currency.value,
+                            amount: depositController.value.toString(),
+                            type: widget.type,
+                            isCrypto: d.isCrypto,
+                            title: widget.title
+                          ));
+                        } else if(depositController.currency.value == "NGN") {
+                          navigateToPage(PayStackScreen(
+                              methodCode: d.methodCode.toString(),
+                              currency: depositController.currency.value,
+                              amount: depositController.value.toString(),
+                              type: widget.type,
+                              isCrypto: d.isCrypto,
+                              title: widget.title
+                          ));
+                        } else {
+                          var data = {
+                            'method_code': d.methodCode.toString(),
+                            'currency': depositController.currency.value,
+                            'amount': depositController.value.toString()
+                          };
+                          (widget.type == 1
+                              ? http.submitDeposit(data)
+                              : http.submitWithdraw(data))
+                              .then((value) async {
+                            setState(() {
+                              loading = false;
+                            });
+                            if (value.success) {
+                              if (widget.type == 2) {
+                                if (d.isCrypto) {
+                                  navigateToPage(WithdrawWalletScreen(
+                                      id: value.data['withdraw']['id']));
+                                } else {
+                                  navigateToPage(WithdrawPaymentScreen(
+                                      id: value.data['withdraw']['id']));
                                 }
                               } else {
-                                // navigateToPage(
-                                //     NewWithdrawLOGScreen(title: widget.title));
-                                navigateToPage(StripePaymentScreen());
+                                if (value.data['data']['redirect'] != null) {
+                                  var u =
+                                      value.data['data']['redirect'] as String ??
+                                          '';
+                                  var d = u
+                                      .replaceAll('https://', '')
+                                      .replaceAll('/', '\\');
+                                  final Uri url = Uri.parse(u);
+                                  if (!await launchUrl(
+                                    url,
+                                    mode: LaunchMode.externalApplication,
+                                  )) {
+                                    SnackBarMessage.errorSnackbar(
+                                        context, 'Something went Wrong!');
+                                  }
+                                } else {
+                                  navigateToPage(
+                                      NewWithdrawLOGScreen(title: widget.title));
+                                }
                               }
+                            } else {
+                              SnackBarMessage.errorSnackbar(
+                                  context, value.message);
                             }
-                          } else {
-                            SnackBarMessage.errorSnackbar(
-                                context, value.message);
-                          }
-                        });
+                          });
+                        }
                       },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

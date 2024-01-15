@@ -94,6 +94,7 @@ class ImageConstant {
   static const String noTicket = "assets/images/no_ticket.png";
   static const String contract2Extended =
       "assets/images/contract2_extended.png";
+  static const String stripe = "assets/images/stripe.jpg";
 
   // animations
   static const String loadingAnimation = "assets/animations/hexasphere_loading.riv";

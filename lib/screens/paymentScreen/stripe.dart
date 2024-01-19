@@ -15,8 +15,9 @@ class StripePaymentScreen extends StatefulWidget {
   int type;
   bool isCrypto;
   String title;
+  String track;
 
-  StripePaymentScreen({required this.methodCode, required this.currency, required this.amount, required this.type, required this.isCrypto, required this.title});
+  StripePaymentScreen({required this.methodCode, required this.currency, required this.amount, required this.type, required this.isCrypto, required this.title, required this.track});
 
   @override
   State<StripePaymentScreen> createState() => _StripePaymentScreenState();
@@ -25,6 +26,7 @@ class StripePaymentScreen extends StatefulWidget {
 class _StripePaymentScreenState extends State<StripePaymentScreen> {
 
   var loading = false;
+  var formData = {};
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,9 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
                 ),
               ),
               maxLength: 19,
-              onChanged: (value) {},
+              onChanged: (value) {
+                formData['cardNumber'] = value;
+              },
             ),
             SizedBox(
               height: 20,
@@ -109,7 +113,9 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
                       ),
                     ),
                     maxLength: 19,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      formData['cardExpiry'] = value;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -146,7 +152,9 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
                       ),
                     ),
                     maxLength: 3,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      formData['cardCVC'] = value;
+                    },
                   ),
                 ),
               ],
@@ -162,57 +170,35 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
               onPressed: loading
                   ? () {}
                   : () {
+                formData['track'] = widget.track;
+
+                if(formData['cardNumber'] == null || formData['cardNumber'] == '') {
+                  SnackBarMessage.errorSnackbar(
+                      context, 'card number is Required');
+                } else if(formData['cardExpiry'] == null || formData['cardExpiry'] == '') {
+                  SnackBarMessage.errorSnackbar(
+                      context, 'card expiry is Required');
+                } else if(formData['cardCVC'] == null || formData['cardCVC'] == '') {
+                  SnackBarMessage.errorSnackbar(
+                      context, 'card cvc is Required');
+                } else {
+                  var formatBody = formData.map<String, String>(
+                          (key, value) =>
+                          MapEntry(key, value.toString()));
                   var http = HttpRequest();
                   setState(() {
                     loading = true;
                   });
-                  var data = {
-                    'method_code': widget.methodCode,
-                    'currency': widget.currency,
-                    'amount': widget.amount
-                  };
-                  (widget.type == 1
-                      ? http.submitDeposit(data)
-                      : http.submitWithdraw(data))
-                      .then((value) async {
-                    setState(() {
-                      loading = false;
-                    });
-                    if (value.success) {
-                      if (widget.type == 2) {
-                        if (widget.isCrypto) {
-                          navigateToPage(WithdrawWalletScreen(
-                              id: value.data['withdraw']['id']));
-                        } else {
-                          navigateToPage(WithdrawPaymentScreen(
-                              id: value.data['withdraw']['id']));
-                        }
-                      } else {
-                        if (value.data['data']['redirect'] != null) {
-                          var u =
-                              value.data['data']['redirect'] as String ??
-                                  '';
-                          var d = u
-                              .replaceAll('https://', '')
-                              .replaceAll('/', '\\');
-                          final Uri url = Uri.parse(u);
-                          if (!await launchUrl(
-                            url,
-                            mode: LaunchMode.externalApplication,
-                          )) {
-                            SnackBarMessage.errorSnackbar(
-                                context, 'Something went Wrong!');
-                          }
-                        } else {
-                          navigateToPage(
-                              NewWithdrawLOGScreen(title: widget.title));
-                        }
-                      }
+                  http.stripePayment(formatBody).then((value) {
+                    if(value.success == true) {
+                      navigateToPage(NewWithdrawLOGScreen(title: widget.title));
                     } else {
                       SnackBarMessage.errorSnackbar(
-                          context, value.message);
+                          context, '${value.message}');
                     }
                   });
+
+                }
               },
               child: loading
                   ? CircularProgressIndicator(

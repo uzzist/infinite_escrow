@@ -69,32 +69,13 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                               context, "Please add Amount");
                           return;
                         }
-                        setState(() {
-                          loading = true;
-                        });
                         var d = list.firstWhere((element) =>
                             element.name ==
                             depositController.dropdownvalue.value);
                         var http = HttpRequest();
-                        if(depositController.currency.value == "USD") {
-                          navigateToPage(StripePaymentScreen(
-                            methodCode: d.methodCode.toString(),
-                            currency: depositController.currency.value,
-                            amount: depositController.value.toString(),
-                            type: widget.type,
-                            isCrypto: d.isCrypto,
-                            title: widget.title
-                          ));
-                        } else if(depositController.currency.value == "NGN") {
-                          navigateToPage(PayStackScreen(
-                              methodCode: d.methodCode.toString(),
-                              currency: depositController.currency.value,
-                              amount: depositController.value.toString(),
-                              type: widget.type,
-                              isCrypto: d.isCrypto,
-                              title: widget.title
-                          ));
-                        } else {
+                          setState(() {
+                            loading = true;
+                          });
                           var data = {
                             'method_code': d.methodCode.toString(),
                             'currency': depositController.currency.value,
@@ -133,8 +114,29 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                                         context, 'Something went Wrong!');
                                   }
                                 } else {
-                                  navigateToPage(
-                                      NewWithdrawLOGScreen(title: widget.title));
+                                  if(depositController.dropdownvalue.value == "USD") {
+                                    navigateToPage(StripePaymentScreen(
+                                        methodCode: d.methodCode.toString(),
+                                        currency: depositController.currency.value,
+                                        amount: depositController.value.toString(),
+                                        type: widget.type,
+                                        isCrypto: d.isCrypto,
+                                        title: widget.title,
+                                      track: value.data['data']['deposit']['trx'],
+                                    ));
+                                  } else if(depositController.dropdownvalue.value == "NGN") {
+                                    navigateToPage(PayStackScreen(
+                                        methodCode: d.methodCode.toString(),
+                                        currency: depositController.currency.value,
+                                        amount: depositController.value.toString(),
+                                        type: widget.type,
+                                        isCrypto: d.isCrypto,
+                                        title: widget.title,
+                                        track: value.data['data']['deposit']['trx']
+                                    ));
+                                  }
+                                  // navigateToPage(
+                                  //     NewWithdrawLOGScreen(title: widget.title));
                                 }
                               }
                             } else {
@@ -142,7 +144,6 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                                   context, value.message);
                             }
                           });
-                        }
                       },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

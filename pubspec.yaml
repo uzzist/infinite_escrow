@@ -44,12 +44,14 @@ dependencies:
   flutter_chat_bubble: 2.0.2
   http: 0.13.5
   localstorage: 4.0.0+1
-  timeago: 3.4.0
+  timeago: 3.3.0
   file_picker: 5.1.0
   url_launcher: 6.1.11
   rive: 0.9.1
   provider: 6.0.0
   image_picker: 1.0.0
+  flutter_paystack: ^1.0.7
+  intl: ^0.17.0
 
 icons_launcher:
   image_path: "assets/images/app_logo.jpeg"

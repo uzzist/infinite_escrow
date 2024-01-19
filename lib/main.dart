@@ -1,3 +1,4 @@
+import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:infinite_escrow/routes/routes.dart';
 
 void main() {

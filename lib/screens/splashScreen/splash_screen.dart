@@ -27,26 +27,22 @@ class SplashScreen extends StatelessWidget {
                   SizedBox(
                     height: Get.height * 0.55,
                   ),
-                  Container(
-                      height: 192,
-                      width: 280,
-                      padding: EdgeInsets.all(15),
-                      child: Text.rich(TextSpan(
-                          text: "Never buy or sell online without using ",
+                  Text.rich(TextSpan(
+                      text: "Never buy or\nsell online\nwithout using\n",
+                      style: TextStyle(
+                          fontSize: 33,
+                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.black),
+                      children: [
+                        TextSpan(
+                          text: "Infinite Escrow",
                           style: TextStyle(
                               fontSize: 33,
                               fontWeight: FontWeight.w400,
+                              fontFamily: FontConstant.jakartaBold,
                               color: ColorConstant.black),
-                          children: [
-                            TextSpan(
-                              text: "Infinite Escrow",
-                              style: TextStyle(
-                                  fontSize: 33,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: FontConstant.jakartaBold,
-                                  color: ColorConstant.black),
-                            ),
-                          ]))),
+                        ),
+                      ])),
                   SizedBox(height: Get.height * 0.04),
                   Center(
                     child: CircularProgressIndicator(

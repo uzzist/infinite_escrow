@@ -109,6 +109,10 @@ class HttpRequest extends BaseHttpRequest {
     var url = Uri.https(Constants.baseUrl, 'api/m/submit-deposit');
     return baseFormRequest(url, body);
   }
+  Future<ResponseBody> stripePayment(dynamic body) async {
+    var url = Uri.https(Constants.baseUrl, 'api/n/stripe');
+    return baseFormRequest(url, body);
+  }
   Future<ResponseBody> submitWithdraw(dynamic body) async {
     var url = Uri.https(Constants.baseUrl, 'api/m/submit-withdraw');
     return baseFormRequest(url, body);

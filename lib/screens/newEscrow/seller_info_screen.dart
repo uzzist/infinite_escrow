@@ -234,7 +234,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                                         value: '2'),
                                     onTap: (){
                                       setState(() {
-
+                                        coin.value = "2";
                                       });
                                     },
                                   ),
@@ -245,7 +245,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                                         value: '1'),
                                     onTap: (){
                                       setState(() {
-
+                                        coin.value = "1";
                                       });
                                     },
                                   ),
@@ -256,7 +256,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                                         value: '3'),
                                     onTap: (){
                                       setState(() {
-
+                                        coin.value = "3";
                                       });
                                     },
                                   )

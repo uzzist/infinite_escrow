@@ -182,7 +182,7 @@ class _PayStackScreenState extends State<PayStackScreen> {
                       formData['track'] = widget.track;
 
                       Charge charge = Charge()
-                        ..amount = 10000 // In base currency
+                        ..amount = 1 // In base currency
                         ..email = 'customer@email.com'
                         ..card = PaymentCard(number: '4111111111111111', cvc: '123', expiryMonth: 12, expiryYear: 2025);
 

@@ -1,6 +1,5 @@
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/routes/routes.dart';
-import 'package:infinite_escrow/screens/paymentScreen/paystack.dart';
 import 'package:infinite_escrow/screens/paymentScreen/stripe.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -124,19 +123,7 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                                         title: widget.title,
                                       track: value.data['data']['deposit']['trx'],
                                     ));
-                                  } else if(depositController.dropdownvalue.value == "NGN") {
-                                    navigateToPage(PayStackScreen(
-                                        methodCode: d.methodCode.toString(),
-                                        currency: depositController.currency.value,
-                                        amount: depositController.value.toString(),
-                                        type: widget.type,
-                                        isCrypto: d.isCrypto,
-                                        title: widget.title,
-                                        track: value.data['data']['deposit']['trx']
-                                    ));
                                   }
-                                  // navigateToPage(
-                                  //     NewWithdrawLOGScreen(title: widget.title));
                                 }
                               }
                             } else {

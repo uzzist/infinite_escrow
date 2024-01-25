@@ -98,20 +98,20 @@ Row(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: 24,
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              color: containerColor,
-              child: Center(
-                child: Text(
-                  containerTitle,
-                  style: TextStyle(
-                      color: ColorConstant.midNight,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 24,
+            //   padding: EdgeInsets.symmetric(horizontal: 8),
+            //   color: containerColor,
+            //   child: Center(
+            //     child: Text(
+            //       containerTitle,
+            //       style: TextStyle(
+            //           color: ColorConstant.midNight,
+            //           fontSize: 11,
+            //           fontWeight: FontWeight.w500),
+            //     ),
+            //   ),
+            // ),
             id > 0? Row(children: [
               InkWell(
                 onTap: () {

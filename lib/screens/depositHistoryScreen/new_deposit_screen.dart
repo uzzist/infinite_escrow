@@ -37,7 +37,9 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
         if (value[0].success == true) {
           setState(() {
             list = DepositMethord.fromList(value[0].data['data']['methods']);
-            list.removeAt(0);
+            if(widget.type == 1) {
+              list.removeAt(0);
+            }
             depositController.dropdownvalue.value = list[0].name;
             depositController.currency.value = list[0].currency;
             max = list[0].maxAmount;

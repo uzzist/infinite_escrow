@@ -7,6 +7,7 @@ TextFormField customTextField(
     final String? value,
     final readonly = false,
     final Function? onChange,
+      final Color? hintTextColor,
     final void Function()? onSuffixTap,
     final bool obsecure = false}) {
   return TextFormField(
@@ -21,7 +22,7 @@ TextFormField customTextField(
     decoration: InputDecoration(
       hintText: hintText,
       hintStyle: TextStyle(
-          color: ColorConstant.darkestGrey,
+          color: hintTextColor ?? ColorConstant.darkestGrey,
           fontSize: 14,
           fontFamily: FontConstant.jakartaMedium,
           fontWeight: FontWeight.w500),

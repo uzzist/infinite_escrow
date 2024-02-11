@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -45,13 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   "Login to InfiniteEscrow",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).brightness == Brightness.dark ? Colors.white : ColorConstant.midNight,
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
                 ),
                 SizedBox(height: 20),
                 customTextField(
+                  hintTextColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : ColorConstant.darkestGrey,
                     onChange: (e) {
                       setState(() {
                         formData['username'] = e;
@@ -61,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: ImageConstant.account),
                 SizedBox(height: 20),
                 customTextField(
+                    hintTextColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : ColorConstant.darkestGrey,
                     onSuffixTap: () {
                       setState(() {
                         hidePassword = !hidePassword;
@@ -147,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Sign up",
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : ColorConstant.midNight,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         )),
@@ -158,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Forget Password?",
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : ColorConstant.midNight,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ))

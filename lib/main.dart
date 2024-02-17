@@ -1,4 +1,3 @@
-import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:infinite_escrow/routes/routes.dart';
 import 'package:infinite_escrow/themes/dark_theme.dart';
 import 'package:infinite_escrow/themes/light_theme.dart';

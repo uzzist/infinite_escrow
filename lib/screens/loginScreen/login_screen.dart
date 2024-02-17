@@ -1,7 +1,5 @@
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/routes/routes.dart';
-import 'package:rive/rive.dart';
-
 import '../../core/messages.dart';
 
 class LoginScreen extends StatefulWidget {

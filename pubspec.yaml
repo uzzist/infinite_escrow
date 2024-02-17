@@ -50,7 +50,6 @@ dependencies:
   rive: 0.9.1
   provider: 6.0.0
   image_picker: 1.0.0
-  flutter_paystack: ^1.0.7
   intl: ^0.17.0
 
 icons_launcher:

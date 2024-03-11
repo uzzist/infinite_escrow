@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/routes/routes.dart';
 import 'package:infinite_escrow/screens/newEscrow/models/escrow_detail.dart';
@@ -237,15 +239,27 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          profile?.id == model?.sellerId ? Text(
                             "I’m Selling to",
                             style: TextStyle(
                                 color: ColorConstant.darkestGrey,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500),
+                          ) : Text(
+                            "I’m buying from",
+                            style: TextStyle(
+                                color: ColorConstant.darkestGrey,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500),
                           ),
-                          Text(
+                          profile?.id == model?.sellerId ? Text(
                             model?.buyerName ?? '',
+                            style: TextStyle(
+                                color: ColorConstant.midNight,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700),
+                          ) : Text(
+                            model?.sellerName ?? '',
                             style: TextStyle(
                                 color: ColorConstant.midNight,
                                 fontSize: 13,
@@ -372,6 +386,126 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                         title: "Rest Amount",
                         amount: model?.restAmount ?? 0,
                         currency: model?.currency ?? '',
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Visibility(
+                        visible: model?.getStatusString() != "Accepted",
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.bottomSheet(
+                                  Container(
+                                    height: 300,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        color: ColorConstant.white,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20))),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "Confirmation!",
+                                          style: TextStyle(
+                                              color: ColorConstant.midNight,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Text('Accept escrow'),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              width: 163.5,
+                                              height: 56,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: ColorConstant.black,
+                                                      width: 2)),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                    var http = HttpRequest();
+                                                    var formData = {};
+                                                    formData['escrow_id'] = model?.id ?? 0;
+                                                    var formatBody = formData.map<String, String>(
+                                                            (key, value) =>
+                                                            MapEntry(key, value.toString()));
+                                                    SnackBarMessage.showLoading(context);
+                                                    http
+                                                        .acceptEscrow(formatBody)
+                                                        .then((value) {
+                                                      if (value.success) {
+                                                        getData();
+                                                      } else {
+                                                        SnackBarMessage.errorSnackbar(
+                                                            context,
+                                                            'something went wrong please try again');
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    "Yes, I’m sure",
+                                                    style: TextStyle(
+                                                        color: ColorConstant.black,
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w600),
+                                                  )),
+                                            ),
+                                            Container(
+                                              width: 163.5,
+                                              height: 56,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: ColorConstant.black,
+                                                      width: 2)),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Text(
+                                                    "No, Go back",
+                                                    style: TextStyle(
+                                                        color: ColorConstant.black,
+                                                        fontSize: 15,
+                                                        fontWeight: FontWeight.w600),
+                                                  )),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Accept",
+                                style: TextStyle(
+                                    color: ColorConstant.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(Icons.check_circle_outlined)
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
                       (model?.disputerId ?? 0) > 0

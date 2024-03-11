@@ -118,48 +118,53 @@ class _OTPScreenState extends State<OTPScreen> {
                   child: TextButton(
                       onPressed:  loading ? (){}:  () {
                         var otp = controller.map((e) => e?.value.text).join('');
-                        var data = {
-                          'email_verified_code': otp.toString(),
-                          'email': widget.email.toString()
-                        };
-                        if(widget.type == 3){
-                          data['type'] = 'phone';
-                        }else{
-                          data['type'] = 'email';
-                        }
-                        setState(() {
-                          loading = true;
-                        });
-                        var http = HttpRequest();
-                        ( widget.type == 1? http.verifyOtp(data): http.signUpVerification(data)).then((value){
-                          setState(() {
-                            loading = false;
-                          });
-                          if (value.success == true) {
-                            if( widget.type == 1){
-                              navigateToPage(ChangePassword(isForget: true, email: widget.email ?? '', token: value.data['data']['token'] ?? '',));
-                            }else{
-                              if(widget.type != 3){
-                                //http.sendVerification(widget.email ?? '', 'phone');
-                                SnackBarMessage.successSnackbar(context,
-                                    "Email Verify successfully");
-                                setState(() {
-                                  widget.type = 3;
-                                  cleartext = true;
-                                });
-                                navigateToOffAllNextPage(LoginScreen());
-                                // navigateToPage(OTPScreen(type: 2, phone: widget.phone ?? '',));
-                              }else{
-                                SnackBarMessage.successSnackbar(context, 'Account verified SuccessFully');
-                                http.clearToken();
-                                navigateToOffAllNextPage(LoginScreen());
-                              }
-                            }
-                          } else {
-                            SnackBarMessage.errorSnackbar(
-                                context, value.message);
+                        if(otp.toString().isEmpty) {
+                          SnackBarMessage.errorSnackbar(
+                              context, "Please enter OTP");
+                        } else {
+                          var data = {
+                            'code': otp.toString(),
+                            'email': widget.email.toString()
+                          };
+                          if(widget.type == 3){
+                            data['type'] = 'phone';
+                          }else{
+                            data['type'] = 'email';
                           }
-                        });
+                          setState(() {
+                            loading = true;
+                          });
+                          var http = HttpRequest();
+                          ( widget.type == 1? http.verifyOtp(data): http.signUpVerification(data)).then((value){
+                            setState(() {
+                              loading = false;
+                            });
+                            if (value.success == true) {
+                              if( widget.type == 1){
+                                navigateToPage(ChangePassword(isForget: true, email: widget.email ?? '', token: value.data['data']['token'] ?? '',));
+                              }else{
+                                if(widget.type != 3){
+                                  //http.sendVerification(widget.email ?? '', 'phone');
+                                  SnackBarMessage.successSnackbar(context,
+                                      "Email Verify successfully");
+                                  setState(() {
+                                    widget.type = 3;
+                                    cleartext = true;
+                                  });
+                                  navigateToOffAllNextPage(LoginScreen());
+                                  // navigateToPage(OTPScreen(type: 2, phone: widget.phone ?? '',));
+                                }else{
+                                  SnackBarMessage.successSnackbar(context, 'Account verified SuccessFully');
+                                  http.clearToken();
+                                  navigateToOffAllNextPage(LoginScreen());
+                                }
+                              }
+                            } else {
+                              SnackBarMessage.errorSnackbar(
+                                  context, value.message);
+                            }
+                          });
+                        }
                         // navigateToOffAllNextPage(LoginScreen());
                       },
                       child: Row(

@@ -218,6 +218,15 @@ class HttpRequest extends BaseHttpRequest {
     return get('api/m/escrow/cancel', {"escrow_id": id.toString()});
   }
 
+  // Future<ResponseBody> acceptEscrow(int id) async {
+  //   return get('api/m/escrow/accept', {"escrow_id": id.toString()});
+  // }
+
+  Future<ResponseBody> acceptEscrow(dynamic body) async {
+    var url = Uri.https(Constants.baseUrl, 'api/m/escrow/accept');
+    return baseFormRequest(url, body);
+  }
+
   Future<ResponseBody> disputeEscrow(int id, String message) async {
     return get('api/m/escrow/dispute', {"escrow_id": id.toString(), 'details': message});
   }

@@ -214,8 +214,13 @@ class HttpRequest extends BaseHttpRequest {
   Future<ResponseBody> getEscrowDetail(int id) async {
     return get('api/m/escrow/'+id.toString(), {"": ""});
   }
-  Future<ResponseBody> cancelEscrow(int id) async {
-    return get('api/m/escrow/cancel', {"escrow_id": id.toString()});
+  // Future<ResponseBody> cancelEscrow(int id) async {
+  //   return get('api/m/escrow/cancel', {"escrow_id": id.toString()});
+  // }
+
+  Future<ResponseBody> cancelEscrow(dynamic body) async {
+    var url = Uri.https(Constants.baseUrl, 'api/m/escrow/cancel');
+    return baseFormRequest(url, body);
   }
 
   // Future<ResponseBody> acceptEscrow(int id) async {
@@ -317,6 +322,7 @@ class BaseHttpRequest {
     var result = await response.stream.bytesToString();
     print(result.toString());
     var responseBody = jsonDecode(result) as Map;
+    print(response.statusCode);
     if (response.statusCode == 401) {
       clearToken();
       var message = getMessage(responseBody);

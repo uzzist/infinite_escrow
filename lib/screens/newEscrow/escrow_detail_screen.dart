@@ -117,9 +117,14 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                                           }
                                           Get.back();
                                           var http = HttpRequest();
+                                          var formData = {};
+                                          formData['escrow_id'] = model?.id ?? 0;
+                                          var formatBody = formData.map<String, String>(
+                                                  (key, value) =>
+                                                  MapEntry(key, value.toString()));
                                           SnackBarMessage.showLoading(context);
                                           http
-                                              .cancelEscrow(model?.id ?? 0)
+                                              .cancelEscrow(formatBody)
                                               .then((value) {
                                             if (value.success) {
                                               getData();
@@ -391,7 +396,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                         height: 10,
                       ),
                       Visibility(
-                        visible: model?.getStatusString() != "Accepted",
+                        visible: model?.getStatusString() != "Accepted" && model?.getStatusString() != "Cancelled",
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [

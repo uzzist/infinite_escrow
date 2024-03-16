@@ -22,8 +22,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
       child: Scaffold(
         appBar: customAppBar(
           title: "",
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor
         ),
-        backgroundColor: ColorConstant.white,
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -40,7 +40,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                 Text(
                   "Forget Password",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
@@ -51,7 +51,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                 Text(
                   "For recover your password, please enter your username or email",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500,
                       fontFamily: FontConstant.jakartaMedium,
                       fontSize: 14),
@@ -64,7 +64,10 @@ class _ForgotScreenState extends State<ForgotScreen> {
                       });
                     },
                     hintText: "Username or Email",
-                    prefixIcon: ImageConstant.account),
+                    prefixIcon: ImageConstant.account,
+                  hintTextColor: Theme.of(context).colorScheme.secondary,
+                  prefixIconColor: Theme.of(context).colorScheme.secondary
+                ),
                 SizedBox(height: 20),
                 Container(
                   height: 56,

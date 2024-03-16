@@ -5,7 +5,8 @@ AppBar customAppBar(
     String? title,
     Widget? svgTitle,
     List<Widget>? actions,
-    Color? backgroundColor,
+      Color? titleColor,
+    Color? backgroundColor, Color? iconColor,
     bool isActionsShow = false}) {
   return AppBar(
     backgroundColor: backgroundColor ?? ColorConstant.white,
@@ -17,7 +18,7 @@ AppBar customAppBar(
             },
             icon: Icon(
               Icons.arrow_back,
-              color: ColorConstant.black,
+              color: iconColor ?? ColorConstant.black,
             ))
         : SizedBox(),
     centerTitle: true,
@@ -25,7 +26,7 @@ AppBar customAppBar(
         Text(
           title!,
           style: TextStyle(
-              color: ColorConstant.black,
+              color: titleColor ?? ColorConstant.black,
               fontSize: 15,
               fontWeight: FontWeight.w600),
         ),

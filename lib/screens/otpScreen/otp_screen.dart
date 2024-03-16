@@ -7,7 +7,13 @@ class OTPScreen extends StatefulWidget {
   String? email;
   String? phone;
   int type;
-  OTPScreen({super.key, this.email, required this.type, this.phone,});
+
+  OTPScreen({
+    super.key,
+    this.email,
+    required this.type,
+    this.phone,
+  });
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -27,7 +33,6 @@ class _OTPScreenState extends State<OTPScreen> {
 
   startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-
       setState(() {
         seconds--;
       });
@@ -56,8 +61,11 @@ class _OTPScreenState extends State<OTPScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: customAppBar(title: ""),
-        backgroundColor: ColorConstant.white,
+        appBar: customAppBar(
+            title: "",
+            backgroundColor: Theme.of(context).brightness == Brightness.light
+                ? ColorConstant.white
+                : ColorConstant.black),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -74,7 +82,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 Text(
                   "Verification Code",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? ColorConstant.midNight
+                          : ColorConstant.white,
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
@@ -85,15 +95,19 @@ class _OTPScreenState extends State<OTPScreen> {
                 Text(
                   "The verification code has been sent to",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? ColorConstant.midNight
+                          : ColorConstant.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: FontConstant.jakartaMedium,
                       fontSize: 14),
                 ),
                 Text(
-                  widget.type != 3 ? widget.email ?? '': widget.phone ?? '' ,
+                  widget.type != 3 ? widget.email ?? '' : widget.phone ?? '',
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? ColorConstant.midNight
+                          : ColorConstant.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 14),
@@ -102,8 +116,8 @@ class _OTPScreenState extends State<OTPScreen> {
                 OtpTextField(
                   numberOfFields: 6,
                   fieldWidth: 45,
-                  handleControllers: (e){
-                    controller= e;
+                  handleControllers: (e) {
+                    controller = e;
                   },
                   focusedBorderColor: ColorConstant.darkestGrey,
                   borderColor: ColorConstant.darkestGrey,
@@ -116,68 +130,82 @@ class _OTPScreenState extends State<OTPScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(color: ColorConstant.lightGreen),
                   child: TextButton(
-                      onPressed:  loading ? (){}:  () {
-                        var otp = controller.map((e) => e?.value.text).join('');
-                        if(otp.toString().isEmpty) {
-                          SnackBarMessage.errorSnackbar(
-                              context, "Please enter OTP");
-                        } else {
-                          var data = {
-                            'code': otp.toString(),
-                            'email': widget.email.toString()
-                          };
-                          if(widget.type == 3){
-                            data['type'] = 'phone';
-                          }else{
-                            data['type'] = 'email';
-                          }
-                          setState(() {
-                            loading = true;
-                          });
-                          var http = HttpRequest();
-                          ( widget.type == 1? http.verifyOtp(data): http.signUpVerification(data)).then((value){
-                            setState(() {
-                              loading = false;
-                            });
-                            if (value.success == true) {
-                              if( widget.type == 1){
-                                navigateToPage(ChangePassword(isForget: true, email: widget.email ?? '', token: value.data['data']['token'] ?? '',));
-                              }else{
-                                if(widget.type != 3){
-                                  //http.sendVerification(widget.email ?? '', 'phone');
-                                  SnackBarMessage.successSnackbar(context,
-                                      "Email Verify successfully");
-                                  setState(() {
-                                    widget.type = 3;
-                                    cleartext = true;
-                                  });
-                                  navigateToOffAllNextPage(LoginScreen());
-                                  // navigateToPage(OTPScreen(type: 2, phone: widget.phone ?? '',));
-                                }else{
-                                  SnackBarMessage.successSnackbar(context, 'Account verified SuccessFully');
-                                  http.clearToken();
-                                  navigateToOffAllNextPage(LoginScreen());
+                      onPressed: loading
+                          ? () {}
+                          : () {
+                              var otp =
+                                  controller.map((e) => e?.value.text).join('');
+                              if (otp.toString().isEmpty) {
+                                SnackBarMessage.errorSnackbar(
+                                    context, "Please enter OTP");
+                              } else {
+                                var data = {
+                                  'code': otp.toString(),
+                                  'email': widget.email.toString()
+                                };
+                                if (widget.type == 3) {
+                                  data['type'] = 'phone';
+                                } else {
+                                  data['type'] = 'email';
                                 }
+                                setState(() {
+                                  loading = true;
+                                });
+                                var http = HttpRequest();
+                                (widget.type == 1
+                                        ? http.verifyOtp(data)
+                                        : http.signUpVerification(data))
+                                    .then((value) {
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  if (value.success == true) {
+                                    if (widget.type == 1) {
+                                      navigateToPage(ChangePassword(
+                                        isForget: true,
+                                        email: widget.email ?? '',
+                                        token:
+                                            value.data['data']['token'] ?? '',
+                                      ));
+                                    } else {
+                                      if (widget.type != 3) {
+                                        //http.sendVerification(widget.email ?? '', 'phone');
+                                        SnackBarMessage.successSnackbar(context,
+                                            "Email Verify successfully");
+                                        setState(() {
+                                          widget.type = 3;
+                                          cleartext = true;
+                                        });
+                                        navigateToOffAllNextPage(LoginScreen());
+                                        // navigateToPage(OTPScreen(type: 2, phone: widget.phone ?? '',));
+                                      } else {
+                                        SnackBarMessage.successSnackbar(context,
+                                            'Account verified SuccessFully');
+                                        http.clearToken();
+                                        navigateToOffAllNextPage(LoginScreen());
+                                      }
+                                    }
+                                  } else {
+                                    SnackBarMessage.errorSnackbar(
+                                        context, value.message);
+                                  }
+                                });
                               }
-                            } else {
-                              SnackBarMessage.errorSnackbar(
-                                  context, value.message);
-                            }
-                          });
-                        }
-                        // navigateToOffAllNextPage(LoginScreen());
-                      },
+                              // navigateToOffAllNextPage(LoginScreen());
+                            },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          loading ? CircularProgressIndicator(
-                            color: Colors.white,
-                          ): Text("Verify",
-                              style: TextStyle(
-                                  color: ColorConstant.midNight,
-                                  fontSize: 17,
-                                  fontFamily: FontConstant.jakartaSemiBold,
-                                  fontWeight: FontWeight.w700)),
+                          loading
+                              ? CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Text("Verify",
+                                  style: TextStyle(
+                                      color: ColorConstant.midNight,
+                                      fontSize: 17,
+                                      fontFamily: FontConstant.jakartaSemiBold,
+                                      fontWeight: FontWeight.w700)),
                           SizedBox(width: 10),
                           Padding(
                             padding: const EdgeInsets.only(top: 4.0),
@@ -193,41 +221,51 @@ class _OTPScreenState extends State<OTPScreen> {
                   height: Get.height * 0.3,
                 ),
                 Center(
-                    child: resend ? InkWell(
-                      onTap: () {
-                        var http = HttpRequest();
-                        http.sendVerification(widget.email!, 'email').then((value) {
-                          if (value.success == true) {
-                            SnackBarMessage.successSnackbar(context,
-                                "code resent successfully");
-                            setState(() {
-                              resend = false;
-                            });
-                            startTimer();
-                          } else {
-                            SnackBarMessage.errorSnackbar(
-                                context, value.message);
-                          }
-                        });
-                      },
-                      child: Text(
-                        "Send again",
-                        style: TextStyle(
-                          color: ColorConstant.darkestGrey,
-                          fontSize: 15,
-                          fontFamily: FontConstant.jakartaSemiBold,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ) : Text(
-                      "Send again ( $seconds )",
-                      style: TextStyle(
-                        color: ColorConstant.darkestGrey,
-                        fontSize: 15,
-                        fontFamily: FontConstant.jakartaSemiBold,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ))
+                    child: resend
+                        ? InkWell(
+                            onTap: () {
+                              var http = HttpRequest();
+                              http
+                                  .sendVerification(widget.email!, 'email')
+                                  .then((value) {
+                                if (value.success == true) {
+                                  SnackBarMessage.successSnackbar(
+                                      context, "code resent successfully");
+                                  setState(() {
+                                    resend = false;
+                                  });
+                                  startTimer();
+                                } else {
+                                  SnackBarMessage.errorSnackbar(
+                                      context, value.message);
+                                }
+                              });
+                            },
+                            child: Text(
+                              "Send again",
+                              style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? ColorConstant.darkestGrey
+                                    : ColorConstant.offWhite,
+                                fontSize: 15,
+                                fontFamily: FontConstant.jakartaSemiBold,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            "Send again ( $seconds )",
+                            style: TextStyle(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? ColorConstant.darkestGrey
+                                  : ColorConstant.offWhite,
+                              fontSize: 15,
+                              fontFamily: FontConstant.jakartaSemiBold,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ))
               ],
             ),
           ),

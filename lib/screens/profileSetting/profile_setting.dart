@@ -11,6 +11,7 @@ import '../../core/state/base_State.dart';
 
 class ProfileSetting extends StatefulWidget {
   final bool isIconShow;
+
   ProfileSetting({super.key, this.isIconShow = true});
 
   @override
@@ -20,6 +21,7 @@ class ProfileSetting extends StatefulWidget {
 class _ProfileSettingState extends State<ProfileSetting> {
   ProfileModel? profile;
   File? profileImage;
+
   @override
   initState() {
     super.initState();
@@ -60,23 +62,25 @@ class _ProfileSettingState extends State<ProfileSetting> {
                   } else {
                     var http = HttpRequest();
                     SnackBarMessage.showLoading(context);
-                    if(profileImage != null){
+                    if (profileImage != null) {
                       formData['file'] = profileImage!.path.toString();
                     }
                     http.updateProfile(formData).then((value) {
                       Navigator.pop(context);
                       if (value.success == true) {
                         http.saveUser(value.data['data']['user']);
-                        var p = ProfileModel.fromJson(value.data['data']['user']);
+                        var p =
+                            ProfileModel.fromJson(value.data['data']['user']);
                         context.read<BaseState>().updateProfile(p);
                         SnackBarMessage.successSnackbar(
                             context, 'profile Updated');
                       } else {
                         SnackBarMessage.errorSnackbar(context, value.message);
                       }
-                    }).catchError((e){
+                    }).catchError((e) {
                       Navigator.pop(context);
-                      SnackBarMessage.errorSnackbar(context, 'Something went wrong');
+                      SnackBarMessage.errorSnackbar(
+                          context, 'Something went wrong');
                     });
                   }
                 },
@@ -101,7 +105,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
           ),
         ],
         appBar: customAppBar(
-            title: "Profile Setting", isIconShow: widget.isIconShow),
+            title: "Profile Setting",
+            titleColor: Theme.of(context).colorScheme.tertiary,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            isIconShow: widget.isIconShow),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -111,18 +118,18 @@ class _ProfileSettingState extends State<ProfileSetting> {
                 Text(
                   "Profile picture",
                   style: TextStyle(
-                      color: ColorConstant.darkestGrey,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                 ),
                 Center(
                     child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 28),
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      color: Colors.grey.shade200,
+                  margin: EdgeInsets.symmetric(vertical: 28),
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    color: Colors.grey.shade200,
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -130,7 +137,8 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       borderRadius: BorderRadius.all(Radius.circular(100)),
                       onTap: () async {
                         final ImagePicker picker = ImagePicker();
-                        var result = await picker.pickImage(source: ImageSource.gallery);
+                        var result =
+                            await picker.pickImage(source: ImageSource.gallery);
                         if (result != null) {
                           setState(() {
                             profileImage = File(result.path ?? '');
@@ -141,8 +149,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       child: profileImage == null
-                          ? profile?.image== null? SvgPicture.asset(ImageConstant.profilePicture,
-                              fit: BoxFit.cover): Image.network( profile?.image ?? '' )
+                          ? profile?.image == null
+                              ? SvgPicture.asset(ImageConstant.profilePicture,
+                                  fit: BoxFit.cover)
+                              : Image.network(profile?.image ?? '')
                           : Image.file(profileImage!, fit: BoxFit.cover),
                     ),
                   ),
@@ -153,7 +163,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "First Name",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -161,10 +171,13 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       height: 10,
                     ),
                     customTextField(
+                        hintTextColor: Theme.of(context).colorScheme.tertiary,
                         readonly: true,
                         value: profile?.firstname,
                         hintText: "",
-                        prefixIcon: ImageConstant.person),
+                        prefixIcon: ImageConstant.person,
+                        prefixIconColor:
+                            Theme.of(context).colorScheme.secondary),
                   ],
                 ),
                 SizedBox(
@@ -176,7 +189,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "Last Name",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -190,7 +203,10 @@ class _ProfileSettingState extends State<ProfileSetting> {
                         readonly: true,
                         value: profile?.lastname,
                         hintText: "",
-                        prefixIcon: ImageConstant.person),
+                        prefixIcon: ImageConstant.person,
+                        hintTextColor: Theme.of(context).colorScheme.tertiary,
+                        prefixIconColor:
+                            Theme.of(context).colorScheme.secondary),
                   ],
                 ),
                 SizedBox(
@@ -202,7 +218,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "Email",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -210,6 +226,9 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       height: 10,
                     ),
                     customTextField(
+                        hintTextColor: Theme.of(context).colorScheme.tertiary,
+                        prefixIconColor:
+                        Theme.of(context).colorScheme.secondary,
                         value: profile?.email,
                         hintText: "",
                         prefixIcon: ImageConstant.email),
@@ -224,7 +243,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "Mobile Number",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -233,41 +252,45 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     ),
                     IntlPhoneField(
                       readOnly: true,
-                      validator: (p) {
-                      },
+                      validator: (p) {},
                       enabled: false,
                       autovalidateMode: AutovalidateMode.disabled,
                       dropdownIcon: Icon(Icons.keyboard_arrow_down),
                       disableLengthCheck: false,
                       searchText: "Search country code or name",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          fontSize: 14,
+                          fontFamily: FontConstant.jakartaMedium,
+                          fontWeight: FontWeight.w500),
                       decoration: InputDecoration(
                         hintText: 'Phone Number',
                         hintStyle: TextStyle(
-                            color: ColorConstant.darkestGrey,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 14,
                             fontFamily: FontConstant.jakartaMedium,
                             fontWeight: FontWeight.w500),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0),
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0),
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0),
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                           ),
                         ),
                       ),
@@ -286,7 +309,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "Address",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -294,6 +317,8 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       height: 10,
                     ),
                     customTextField(
+                      hintTextColor: Theme.of(context).colorScheme.tertiary,
+                        prefixIconColor: Theme.of(context).colorScheme.secondary,
                         onChange: (e) {
                           profile?.address.address = e;
                         },
@@ -311,7 +336,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "State",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -319,6 +344,8 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       height: 10,
                     ),
                     customTextField(
+                      hintTextColor: Theme.of(context).colorScheme.tertiary,
+                        prefixIconColor: Theme.of(context).colorScheme.secondary,
                         onChange: (e) {
                           profile?.address.state = e;
                         },
@@ -336,7 +363,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     Text(
                       "City",
                       style: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -344,6 +371,8 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       height: 10,
                     ),
                     customTextField(
+                      hintTextColor: Theme.of(context).colorScheme.tertiary,
+                        prefixIconColor: Theme.of(context).colorScheme.secondary,
                         onChange: (e) {
                           profile?.address.city = e;
                         },

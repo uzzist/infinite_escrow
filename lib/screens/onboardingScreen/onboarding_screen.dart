@@ -31,10 +31,10 @@ class OnBoardingScreen extends StatelessWidget {
                           },
                           child: Text(
                             "Skip",
-                            style: TextStyle(
-                                color: ColorConstant.midNight,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600
+                            ),
                           ),
                         ),
                       ],
@@ -64,7 +64,9 @@ class OnBoardingScreen extends StatelessWidget {
                           height: 48,
                           width: 154,
                           decoration: BoxDecoration(
-                            color: ColorConstant.midNight,
+                            color: Theme.of(context).brightness == Brightness.light
+                                ? ColorConstant.midNight // Set color to black in light theme
+                                : ColorConstant.white,
                           ),
                           child: TextButton(
                               onPressed: () {
@@ -78,10 +80,11 @@ class OnBoardingScreen extends StatelessWidget {
                                   Text(
                                     "Next",
                                     style: TextStyle(
-                                        color: ColorConstant.white,
+                                        color: Theme.of(context).brightness == Brightness.light
+                                            ? ColorConstant.white // Set color to black in light theme
+                                            : ColorConstant.black,
                                         fontSize: 15,
-                                        fontFamily:
-                                            FontConstant.jakartaSemiBold,
+                                        fontFamily: FontConstant.jakartaSemiBold,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
@@ -89,7 +92,9 @@ class OnBoardingScreen extends StatelessWidget {
                                   ),
                                   Icon(
                                     Icons.arrow_forward,
-                                    color: ColorConstant.white,
+                                    color: Theme.of(context).brightness == Brightness.light
+                                        ? ColorConstant.white // Set color to black in light theme
+                                        : ColorConstant.black,
                                   )
                                 ],
                               )),
@@ -111,7 +116,9 @@ class OnBoardingScreen extends StatelessWidget {
                           height: 48,
                           width: 154,
                           decoration: BoxDecoration(
-                            color: ColorConstant.midNight,
+                            color: Theme.of(context).brightness == Brightness.light
+                                ? ColorConstant.midNight // Set color to black in light theme
+                                : ColorConstant.white,
                           ),
                           child: TextButton(
                               onPressed: () {
@@ -125,7 +132,9 @@ class OnBoardingScreen extends StatelessWidget {
                                   Text(
                                     "Next",
                                     style: TextStyle(
-                                        color: ColorConstant.white,
+                                        color: Theme.of(context).brightness == Brightness.light
+                                            ? ColorConstant.white // Set color to black in light theme
+                                            : ColorConstant.black,
                                         fontSize: 15,
                                         fontFamily:
                                             FontConstant.jakartaSemiBold,
@@ -136,7 +145,9 @@ class OnBoardingScreen extends StatelessWidget {
                                   ),
                                   Icon(
                                     Icons.arrow_forward,
-                                    color: ColorConstant.white,
+                                    color: Theme.of(context).brightness == Brightness.light
+                                        ? ColorConstant.white // Set color to black in light theme
+                                        : ColorConstant.black,
                                   )
                                 ],
                               )),

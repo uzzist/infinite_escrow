@@ -13,18 +13,18 @@ class _LoginScreenState extends State<LoginScreen> {
   var formData = {};
   var loading = false;
   var hidePassword = true;
+
   @override
   void initState() {
     super.initState();
     var http = HttpRequest();
     http.getToken().then((value) {
-      if(value != ''){
-      navigateToOffAllNextPage(
-          BottomNavigationScreen());
+      if (value != '') {
+        navigateToOffAllNextPage(BottomNavigationScreen());
       }
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -41,26 +41,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: Get.height * 0.2),
                 SizedBox(height: 40, child: Image.asset(ImageConstant.hand)),
                 Text(
-                  "Login to InfiniteEscrow",
-                  style: TextStyle(
-                      color: ColorConstant.midNight,
+                  "Login to\nInfiniteEscrow",
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
                 ),
                 SizedBox(height: 20),
                 customTextField(
-                  hintTextColor: ColorConstant.darkestGrey,
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                            ? ColorConstant.darkestGrey
+                            : ColorConstant.offWhite,
                     onChange: (e) {
                       setState(() {
                         formData['username'] = e;
                       });
                     },
                     hintText: "User Name",
-                    prefixIcon: ImageConstant.account),
+                    prefixIcon: ImageConstant.account,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                            ? ColorConstant.darkestGrey
+                            : ColorConstant.offWhite),
                 SizedBox(height: 20),
                 customTextField(
-                    hintTextColor: ColorConstant.darkestGrey,
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                            ? ColorConstant.darkestGrey
+                            : ColorConstant.offWhite,
                     onSuffixTap: () {
                       setState(() {
                         hidePassword = !hidePassword;
@@ -76,7 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     suffixIcon: hidePassword
                         ? ImageConstant.showPassword
                         : ImageConstant.hidePassword,
-                    prefixIcon: ImageConstant.key),
+                    prefixIcon: ImageConstant.key,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                            ? ColorConstant.darkestGrey
+                            : ColorConstant.offWhite),
                 SizedBox(height: 30),
                 Container(
                   height: 56,
@@ -111,13 +120,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                         BottomNavigationScreen());
                                   } else {
                                     print(value.data['redirect']);
-                                    if(value.data['redirect'] == 'sms'){
-                                      http.sendVerification(value.data['user']['email']?? '', 'phone');
-                                      navigateToPage(OTPScreen(type: 3, phone: value.data['user']['mobile'] ?? '', email: value.data['user']['email'] ?? '',));
-                                    }else  if(value.data['redirect'] == 'email'){
-                                      http.sendVerification(value.data['user']['email']?? '', 'email');
-                                      navigateToPage(OTPScreen(type: 2, phone: value.data['user']['mobile'] ?? '', email: value.data['user']['email'] ?? '',));
-                                    }else{
+                                    if (value.data['redirect'] == 'sms') {
+                                      http.sendVerification(
+                                          value.data['user']['email'] ?? '',
+                                          'phone');
+                                      navigateToPage(OTPScreen(
+                                        type: 3,
+                                        phone:
+                                            value.data['user']['mobile'] ?? '',
+                                        email:
+                                            value.data['user']['email'] ?? '',
+                                      ));
+                                    } else if (value.data['redirect'] ==
+                                        'email') {
+                                      http.sendVerification(
+                                          value.data['user']['email'] ?? '',
+                                          'email');
+                                      navigateToPage(OTPScreen(
+                                        type: 2,
+                                        phone:
+                                            value.data['user']['mobile'] ?? '',
+                                        email:
+                                            value.data['user']['email'] ?? '',
+                                      ));
+                                    } else {
                                       SnackBarMessage.errorSnackbar(
                                           context, value.message);
                                     }
@@ -147,7 +173,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Sign up",
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? ColorConstant.midNight
+                                  : ColorConstant.white,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         )),
@@ -158,7 +187,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Forget Password?",
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? ColorConstant.midNight
+                                  : ColorConstant.white,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ))

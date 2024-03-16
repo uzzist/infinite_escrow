@@ -8,9 +8,16 @@ TextFormField customTextField(
     final readonly = false,
     final Function? onChange,
       final Color? hintTextColor,
+      final Color? prefixIconColor,
     final void Function()? onSuffixTap,
     final bool obsecure = false}) {
   return TextFormField(
+    style: TextStyle(
+        color: hintTextColor,
+        fontSize: 14,
+        fontFamily: FontConstant.jakartaMedium,
+        fontWeight: FontWeight.w500
+    ),
     onChanged: (value) {
       if (onChange != null) {
         onChange(value);
@@ -22,13 +29,14 @@ TextFormField customTextField(
     decoration: InputDecoration(
       hintText: hintText,
       hintStyle: TextStyle(
-          color: hintTextColor ?? ColorConstant.darkestGrey,
+          color: hintTextColor,
           fontSize: 14,
           fontFamily: FontConstant.jakartaMedium,
           fontWeight: FontWeight.w500),
       prefixIcon: SvgPicture.asset(
         prefixIcon,
         fit: BoxFit.scaleDown,
+        color: prefixIconColor ?? ColorConstant.darkestGrey,
       ),
       suffixIcon: suffixIcon == null
           ? null

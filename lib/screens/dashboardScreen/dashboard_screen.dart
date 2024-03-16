@@ -71,15 +71,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorConstant.white,
         iconTheme: IconThemeData(
-          color: ColorConstant.black,
+          color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
         ),
         elevation: 0,
         title: SvgPicture.asset(ImageConstant.logo),
         centerTitle: true,
         actions: [
-          SvgPicture.asset(currencyImageByName[coin.value]!),
+          SvgPicture.asset(currencyImageByName[coin.value]!, color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,),
           IconButton(
               onPressed: () {
                 customCurrencyBottomSheet(
@@ -102,7 +101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
               icon: Icon(
                 Icons.keyboard_arrow_down,
-                color: ColorConstant.darkestGrey,
+                color: Theme.of(context).colorScheme.secondary,
               ))
         ],
       ),
@@ -274,7 +273,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      backgroundColor: ColorConstant.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -353,7 +351,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 "Escrows",
                 style: TextStyle(
                     fontSize: 20,
-                    color: ColorConstant.midNight,
+                    color: Theme.of(context).colorScheme.primary,
                     fontFamily: FontConstant.jakartaMedium,
                     fontWeight: FontWeight.w500),
               ),

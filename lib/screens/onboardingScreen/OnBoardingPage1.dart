@@ -24,7 +24,9 @@ class OnBoardingPage1 extends StatelessWidget {
       Text(
         title,
         style: TextStyle(
-            color: ColorConstant.midNight,
+            color: Theme.of(context).brightness == Brightness.light
+                ? ColorConstant.midNight // Set color to black in light theme
+                : ColorConstant.white,
             fontSize: 20,
             fontFamily: FontConstant.jakartaSemiBold,
             fontWeight: FontWeight.w600),
@@ -33,7 +35,9 @@ class OnBoardingPage1 extends StatelessWidget {
       Text(
         text ?? '',
         style: TextStyle(
-            color: ColorConstant.darkGrey,
+            color: Theme.of(context).brightness == Brightness.light
+                ? ColorConstant.darkestGrey // Set color to black in light theme
+                : ColorConstant.offWhite,
             fontSize: 13,
             fontFamily: FontConstant.jakartaMedium,
             fontWeight: FontWeight.w500),

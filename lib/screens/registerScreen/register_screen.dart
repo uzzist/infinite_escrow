@@ -22,8 +22,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: customAppBar(title: ""),
-        backgroundColor: ColorConstant.white,
+        appBar: customAppBar(
+            title: "",
+            backgroundColor: Theme.of(context).brightness == Brightness.light
+                ? ColorConstant.white
+                : ColorConstant.black,
+          iconColor: Theme.of(context).brightness == Brightness.light
+              ? ColorConstant.black
+              : ColorConstant.white
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -34,7 +41,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Text(
                   "Create Account",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color:Theme.of(context).brightness == Brightness.light
+                          ? ColorConstant.midNight
+                          : ColorConstant.white,
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
@@ -45,12 +54,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       formData['firstname'] = value;
                     },
                     hintText: "First Name",
-                    prefixIcon: ImageConstant.person),
+                    prefixIcon: ImageConstant.person,
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite
+                ),
                 SizedBox(height: 10),
                 customTextField(
                     onChange: (value) {
                       formData['lastname'] = value;
                     },
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite,
                     hintText: "Last Name",
                     prefixIcon: ImageConstant.person),
                 SizedBox(height: 10),
@@ -65,22 +87,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     hintText: "password",
                     obsecure: hidePassword,
-                    suffixIcon: hidePassword ? ImageConstant.showPassword : ImageConstant.hidePassword,
-                    prefixIcon: ImageConstant.key),
+                    suffixIcon: hidePassword
+                        ? ImageConstant.showPassword
+                        : ImageConstant.hidePassword,
+                    prefixIcon: ImageConstant.key,
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite
+                ),
                 SizedBox(height: 10),
                 customTextField(
                     onChange: (value) {
                       formData['username'] = value;
                     },
                     hintText: "User Name",
-                    prefixIcon: ImageConstant.account),
+                    prefixIcon: ImageConstant.account,
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite
+                ),
                 SizedBox(height: 10),
                 customTextField(
                     onChange: (value) {
                       formData['email'] = value;
                     },
                     hintText: "Email",
-                    prefixIcon: ImageConstant.email),
+                    prefixIcon: ImageConstant.email,
+                    hintTextColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite,
+                    prefixIconColor: Theme.of(context).brightness == Brightness.light
+                        ? ColorConstant.darkestGrey
+                        : ColorConstant.offWhite
+                ),
                 SizedBox(height: 10),
                 IntlPhoneField(
                   dropdownIcon: Icon(Icons.keyboard_arrow_down),
@@ -89,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     hintText: 'Phone Number',
                     hintStyle: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: Theme.of(context).brightness == Brightness.light ? ColorConstant.darkestGrey : ColorConstant.white,
                         fontSize: 14,
                         fontFamily: FontConstant.jakartaMedium,
                         fontWeight: FontWeight.w500),
@@ -162,7 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   loading = true;
                                 });
                                 var formatBody = formData.map<String, String>(
-                                        (key, value) =>
+                                    (key, value) =>
                                         MapEntry(key, value.toString()));
                                 var http = HttpRequest();
                                 http.registor(formatBody).then((value) {
@@ -170,10 +215,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     loading = false;
                                   });
                                   if (value.success == true) {
-                                    http.sendVerification(formData['email'].toString(), 'email');
-                                    SnackBarMessage.successSnackbar(context,
-                                        "Register successfully");
-                                    navigateToPage(OTPScreen(email: formData['email'], type: 2, phone: formData['mobile'],));
+                                    http.sendVerification(
+                                        formData['email'].toString(), 'email');
+                                    SnackBarMessage.successSnackbar(
+                                        context, "Register successfully");
+                                    navigateToPage(OTPScreen(
+                                      email: formData['email'],
+                                      type: 2,
+                                      phone: formData['mobile'],
+                                    ));
                                   } else {
                                     SnackBarMessage.errorSnackbar(
                                         context, value.message);
@@ -186,8 +236,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           loading
                               ? CircularProgressIndicator(
-                            color: Colors.white,
-                          )
+                                  color: Colors.white,
+                                )
                               : Text("Register",
                                   style: TextStyle(
                                       color: ColorConstant.midNight,

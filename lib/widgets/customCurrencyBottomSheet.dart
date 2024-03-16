@@ -10,7 +10,7 @@ Future<dynamic> customCurrencyBottomSheet(
       builder: (context) {
         return Container(
           padding: EdgeInsets.all(15),
-          height: 440,
+          height: 443,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

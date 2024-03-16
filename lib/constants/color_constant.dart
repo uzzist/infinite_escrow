@@ -19,4 +19,5 @@ class ColorConstant {
   static Color mustard = const  Color(0xffEBC06C);
   static Color lightPink = const  Color(0xffF6E7E7);
   static Color pink = const  Color(0xffE98787);
+  static Color offWhite = const  Color(0xFFE0E0E0);
 }

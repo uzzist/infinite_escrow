@@ -1,4 +1,6 @@
 import 'package:infinite_escrow/routes/routes.dart';
+import 'package:infinite_escrow/themes/dark_theme.dart';
+import 'package:infinite_escrow/themes/light_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +15,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Infinite Escrow',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: FontConstant.jakartaRegular,
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: SplashScreen(),
     );
   }

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:infinite_escrow/core/constants.dart';
 import 'package:infinite_escrow/core/http.dart';

@@ -40,6 +40,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: customAppBar(
         isIconShow: widget.isIconShow,
         title: "Notifications",
+        titleColor: Theme.of(context).colorScheme.tertiary,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor
       ),
       body: list.isEmpty
           ? Center(

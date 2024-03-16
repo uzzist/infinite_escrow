@@ -5,7 +5,7 @@ Text customTextRich(BuildContext context) {
     TextSpan(
         text: "By registering, you approve that you are agree with",
         style: TextStyle(
-            color: ColorConstant.black,
+            color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
             fontSize: 12,
             fontFamily: FontConstant.jakartaSemiBold,
             fontWeight: FontWeight.w500),
@@ -15,7 +15,7 @@ Text customTextRich(BuildContext context) {
               recognizer: TapGestureRecognizer()
                 ..onTap = () => customBottomSheet(context, "Privacy Policy"),
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   decoration: TextDecoration.underline,
                   fontFamily: FontConstant.jakartaSemiBold,
@@ -23,7 +23,7 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: " , ",
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   fontFamily: FontConstant.jakartaSemiBold,
                   fontWeight: FontWeight.w500)),
@@ -32,7 +32,7 @@ Text customTextRich(BuildContext context) {
               recognizer: TapGestureRecognizer()
                 ..onTap = () => customBottomSheet(context, "Terms of Service"),
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   decoration: TextDecoration.underline,
                   fontFamily: FontConstant.jakartaSemiBold,
@@ -40,7 +40,7 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: " , ",
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   fontFamily: FontConstant.jakartaSemiBold,
                   fontWeight: FontWeight.w500)),
@@ -49,7 +49,7 @@ Text customTextRich(BuildContext context) {
               recognizer: TapGestureRecognizer()
                 ..onTap = () => customBottomSheet(context, "Payment Policy"),
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   decoration: TextDecoration.underline,
                   fontFamily: FontConstant.jakartaSemiBold,
@@ -57,7 +57,7 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: " , ",
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   fontFamily: FontConstant.jakartaSemiBold,
                   fontWeight: FontWeight.w500)),
@@ -66,7 +66,7 @@ Text customTextRich(BuildContext context) {
               recognizer: TapGestureRecognizer()
                 ..onTap = () => customBottomSheet(context, "Company Rules"),
               style: TextStyle(
-                  color: ColorConstant.black,
+                  color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
                   fontSize: 12,
                   decoration: TextDecoration.underline,
                   fontFamily: FontConstant.jakartaSemiBold,

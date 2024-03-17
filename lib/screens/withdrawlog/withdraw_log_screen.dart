@@ -72,6 +72,9 @@ class _WithdrawlogScreenState extends State<WithdrawlogScreen> {
         ],
         appBar: customAppBar(
           title: "Withdraw log",
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            titleColor: Theme.of(context).colorScheme.tertiary,
+            iconColor: Theme.of(context).colorScheme.tertiary,
           actions: [
             IconButton(
                 onPressed: () {
@@ -143,6 +146,7 @@ class _WithdrawlogScreenState extends State<WithdrawlogScreen> {
                             color: ColorConstant.white,
                             borderRadius: BorderRadius.circular(4),
                           ),
+                          indicatorSize: TabBarIndicatorSize.tab,
                           unselectedLabelColor: ColorConstant.black,
                           labelColor: ColorConstant.black,
                           labelStyle: TextStyle(

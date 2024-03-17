@@ -42,12 +42,15 @@ class _CompletedScreenState extends State<CompletedScreen> {
       appBar: customAppBar(
         title: "Completed",
         isActionsShow: true,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconColor: Theme.of(context).colorScheme.tertiary,
+        titleColor: Theme.of(context).colorScheme.tertiary,
         actions: [
           InkWell(
               onTap: () {
                 navigateToPage(NewEscrowScreen());
               },
-              child: SvgPicture.asset(ImageConstant.plus)),
+              child: SvgPicture.asset(ImageConstant.plus, color: Theme.of(context).colorScheme.primary,)),
           SizedBox(width: 10)
         ],
       ),

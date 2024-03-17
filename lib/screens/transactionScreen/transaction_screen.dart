@@ -54,18 +54,18 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorConstant.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         iconTheme: IconThemeData(
-          color: ColorConstant.black,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         elevation: 0,
         title: Text('Transactions', style: TextStyle(
-            color: ColorConstant.black,
+            color: Theme.of(context).colorScheme.tertiary,
             fontSize: 15,
             fontWeight: FontWeight.w600)),
         centerTitle: true,
         actions: [
-          SvgPicture.asset(currencyImageByName[coin.value]!),
+          SvgPicture.asset(currencyImageByName[coin.value]!, color: Theme.of(context).colorScheme.primary,),
           IconButton(
               onPressed: () {
                 customCurrencyBottomSheet(
@@ -100,7 +100,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
               },
               icon: Icon(
                 Icons.keyboard_arrow_down,
-                color: ColorConstant.darkestGrey,
+                color: Theme.of(context).colorScheme.secondary,
               ))
         ],
       ),

@@ -13,6 +13,7 @@ class BalanceScreen extends StatefulWidget {
 
 class _BalanceScreenState extends State<BalanceScreen> {
   BalanceModel? model;
+
   @override
   void initState() {
     super.initState();
@@ -20,21 +21,25 @@ class _BalanceScreenState extends State<BalanceScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SnackBarMessage.showLoading(context);
       http.getBalance().then((value) {
-          Navigator.pop(context);
-          if (value.success == true) {
-            setState(() {
-              print(value.data.toString());
-              model = BalanceModel.formJson(value.data['data']);
-            });
-          }
+        Navigator.pop(context);
+        if (value.success == true) {
+          setState(() {
+            print(value.data.toString());
+            model = BalanceModel.formJson(value.data['data']);
+          });
+        }
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Balance",),
-
+      appBar: customAppBar(
+          title: "Balance",
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          iconColor: Theme.of(context).colorScheme.tertiary),
       body: Padding(
         padding: EdgeInsets.all(15),
         child: Column(
@@ -43,7 +48,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             customBalanceContainer(
               image: ImageConstant.naira,
               title: "Naira",
-              price: (model?.ngn?? 0).toString(),
+              price: (model?.ngn ?? 0).toString(),
               currencyImage: ImageConstant.nairaBlur,
             ),
             SizedBox(
@@ -61,7 +66,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             customBalanceContainer(
               image: ImageConstant.etherium,
               title: "Ethereum",
-              price: (model?.eth?? 0).toString(),
+              price: (model?.eth ?? 0).toString(),
               currencyImage: ImageConstant.etheriumBlur,
             ),
             SizedBox(
@@ -70,7 +75,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             customBalanceContainer(
               image: ImageConstant.bitcoin,
               title: "Bitcoin",
-              price: (model?.btc?? 0).toString(),
+              price: (model?.btc ?? 0).toString(),
               currencyImage: ImageConstant.bitcoinBlur,
             ),
             SizedBox(
@@ -79,7 +84,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             customBalanceContainer(
               image: ImageConstant.usdc,
               title: "USDC",
-              price: (model?.euro?? 0).toString(),
+              price: (model?.euro ?? 0).toString(),
               currencyImage: ImageConstant.usdcBlur,
             ),
           ],

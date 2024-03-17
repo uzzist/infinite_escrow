@@ -101,7 +101,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                 )),
           ),
         ],
-        appBar: customAppBar(title: "Seller information"),
+        appBar: customAppBar(title: "Seller information", backgroundColor: Theme.of(context).appBarTheme.backgroundColor, titleColor: Theme.of(context).colorScheme.tertiary, iconColor: Theme.of(context).colorScheme.tertiary),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -114,7 +114,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                     Text(
                       "Charge",
                       style: TextStyle(
-                          color: ColorConstant.midNight,
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -130,7 +130,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                         Text(
                           widget.newEscrowController.charge,
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 20,
                               fontWeight: FontWeight.w600),
                         ),
@@ -140,7 +140,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                         Text(
                           widget.coin,
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w500),
                         ),
@@ -154,7 +154,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                     Text(
                       "Escrow Amount",
                       style: TextStyle(
-                          color: ColorConstant.midNight,
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -163,7 +163,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                         Text(
                           widget.newEscrowController.value,
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 20,
                               fontWeight: FontWeight.w600),
                         ),
@@ -173,7 +173,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                         Text(
                           widget.coin,
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w500),
                         ),
@@ -185,6 +185,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                   height: 20,
                 ),
                 customTextFieldWithoutIcon(
+                  hintTextColor: Theme.of(context).colorScheme.secondary,
                   hintText: "Seller Email",
                   onChange: (e){
                     data['email'] = e;
@@ -194,6 +195,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                   height: 20,
                 ),
                 customTextFieldWithoutIcon(
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
                   hintText: "Title",
                     onChange: (e){
                       data['title'] = e;
@@ -207,7 +209,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                   padding: EdgeInsets.only(left: 10),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(color: ColorConstant.grey),
+                    border: Border.all(color: Theme.of(context).colorScheme.outline),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,7 +217,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                       Text(
                         Constants.chargePay[coin.value]!,
                         style: TextStyle(
-                            color: ColorConstant.darkestGrey,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 14,
                             fontFamily: FontConstant.jakartaMedium,
                             fontWeight: FontWeight.w500),
@@ -261,7 +263,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                                   )
                                 ])));
                           },
-                          icon: Icon(Icons.keyboard_arrow_down))
+                          icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).colorScheme.secondary,))
                     ],
                   ),
                 ),
@@ -320,7 +322,9 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                customTextFieldWithoutIcon(hintText: "Details", maxlines: 4,
+                customTextFieldWithoutIcon(
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
+                    hintText: "Details", maxlines: 4,
                     onChange: (e){
                       data['detail'] = e;
                     }),
@@ -346,7 +350,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                     }
                   },
                   child: DottedBorder(
-                    color: ColorConstant.grey,
+                    color: Theme.of(context).colorScheme.outline,
                     strokeWidth: 1,
                     child: SizedBox(
                       height: 104,
@@ -355,7 +359,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(ImageConstant.cloud),
+                          SvgPicture.asset(ImageConstant.cloud, color: Theme.of(context).colorScheme.primary,),
                           SizedBox(
                             height: 10,
                           ),
@@ -363,7 +367,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                             "Choose file here",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ColorConstant.darkestGrey,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 14,
                                 fontFamily: FontConstant.jakartaMedium,
                                 fontWeight: FontWeight.w500),
@@ -375,7 +379,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                             ".JPG  .PNG   .MP4 and .MOV are allowed",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ColorConstant.darkestGrey,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 14,
                                 fontFamily: FontConstant.jakartaMedium,
                                 fontWeight: FontWeight.w500),
@@ -408,7 +412,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                                 text: attachment[index].path.split('/').last ??
                                     '',
                                 style: TextStyle(
-                                    color: ColorConstant.midNight,
+                                    color: Theme.of(context).colorScheme.primary,
                                     fontSize: 14,
                                     fontFamily: FontConstant.jakartaMedium,
                                     fontWeight: FontWeight.w500),
@@ -417,7 +421,7 @@ class _SellerInfoScreenState extends State<SellerInfoScreen> {
                                     text:
                                     " (${(attachment[index].lengthSync() ?? 1) / 1000} KB)",
                                     style: TextStyle(
-                                        color: ColorConstant.darkestGrey,
+                                        color: Theme.of(context).colorScheme.secondary,
                                         fontSize: 14,
                                         fontFamily: FontConstant.jakartaMedium,
                                         fontWeight: FontWeight.w500),

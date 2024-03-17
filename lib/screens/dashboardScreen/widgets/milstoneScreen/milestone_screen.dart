@@ -42,6 +42,9 @@ class _MilestoneScreenState extends State<MilestoneScreen> {
         appBar: customAppBar(
           title: "Milestones",
           isActionsShow: true,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            titleColor: Theme.of(context).colorScheme.tertiary,
+            iconColor: Theme.of(context).colorScheme.tertiary
         ),
         body: Padding(
             padding: EdgeInsets.all(15),
@@ -60,6 +63,7 @@ class _MilestoneScreenState extends State<MilestoneScreen> {
                         color: ColorConstant.white,
                         borderRadius: BorderRadius.circular(4),
                       ),
+                      indicatorSize: TabBarIndicatorSize.tab,
                       unselectedLabelColor: ColorConstant.black,
                       labelColor: ColorConstant.black,
                       labelStyle: TextStyle(

@@ -34,7 +34,12 @@ class TicketWithdrawlogScreen extends StatelessWidget {
                 )),
           ),
         ],
-        appBar: customAppBar(title: "All tickets"),
+        appBar: customAppBar(
+          title: "All tickets",
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          iconColor: Theme.of(context).colorScheme.tertiary,
+        ),
         body: Padding(
             padding: EdgeInsets.all(15),
             child: Column(
@@ -48,11 +53,12 @@ class TicketWithdrawlogScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
                       indicator: BoxDecoration(
                         color: ColorConstant.white,
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      unselectedLabelColor: ColorConstant.black,
+                      unselectedLabelColor: Theme.of(context).colorScheme.tertiary,
                       labelColor: ColorConstant.black,
                       labelStyle: TextStyle(
                           color: ColorConstant.black,

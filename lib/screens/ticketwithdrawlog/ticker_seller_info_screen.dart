@@ -16,16 +16,17 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
   List<File> attachment = [];
   bool loading = false;
   NewTickerController tickerController = NewTickerController();
-  TextEditingController textEditingController = TextEditingController(text: 'High');
+  TextEditingController textEditingController =
+      TextEditingController(text: 'High');
 
   dynamic iconType(String path) {
     var ext = path.split(".")[path.split(".").length - 1];
-    if( ext == 'jpg' || ext == 'png'){
-      return  ImageConstant.photo;
-    }else if(ext == 'mp4' ||ext == 'mov' ){
+    if (ext == 'jpg' || ext == 'png') {
+      return ImageConstant.photo;
+    } else if (ext == 'mp4' || ext == 'mov') {
       return ImageConstant.video;
-    }else{
-      return  ImageConstant.phone;
+    } else {
+      return ImageConstant.phone;
     }
   }
 
@@ -42,40 +43,48 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
             width: double.infinity,
             decoration: BoxDecoration(color: ColorConstant.lightGreen),
             child: TextButton(
-                onPressed: loading? (){}: () {
-                  var formData = {
-                    'subject': tickerController.issue.value.toString(),
-                    'message': tickerController.message.value.toString(),
-                    'priority': tickerController.coin.value.toString(),
-                  };
-                  if(attachment.isNotEmpty){
-                    formData['attachments'] = (attachment[0]).path;
-                  }
-                  setState(() {
-                    loading = true;
-                  });
-                  var http = HttpRequest();
-                  http.newTicket(formData).then((value) {
-                    setState(() {
-                      loading = false;
-                    });
-                    if(value.success){
-                      SnackBarMessage.successSnackbar(context, 'You Ticket Have been Submitted');
-                      navigateToOffAllNextPage(BottomNavigationScreen());
-                    }else{
-                      SnackBarMessage.errorSnackbar(context, value.message);
-                    }
-                  });
-                },
+                onPressed: loading
+                    ? () {}
+                    : () {
+                        var formData = {
+                          'subject': tickerController.issue.value.toString(),
+                          'message': tickerController.message.value.toString(),
+                          'priority': tickerController.coin.value.toString(),
+                        };
+                        if (attachment.isNotEmpty) {
+                          formData['attachments'] = (attachment[0]).path;
+                        }
+                        setState(() {
+                          loading = true;
+                        });
+                        var http = HttpRequest();
+                        http.newTicket(formData).then((value) {
+                          setState(() {
+                            loading = false;
+                          });
+                          if (value.success) {
+                            SnackBarMessage.successSnackbar(
+                                context, 'You Ticket Have been Submitted');
+                            navigateToOffAllNextPage(BottomNavigationScreen());
+                          } else {
+                            SnackBarMessage.errorSnackbar(
+                                context, value.message);
+                          }
+                        });
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    loading? CircularProgressIndicator(color: Colors.white,): Text("Submit",
-                        style: TextStyle(
-                            color: ColorConstant.midNight,
-                            fontSize: 17,
-                            fontFamily: FontConstant.jakartaSemiBold,
-                            fontWeight: FontWeight.w700)),
+                    loading
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text("Submit",
+                            style: TextStyle(
+                                color: ColorConstant.midNight,
+                                fontSize: 17,
+                                fontFamily: FontConstant.jakartaSemiBold,
+                                fontWeight: FontWeight.w700)),
                     SizedBox(width: 10),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
@@ -88,7 +97,12 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                 )),
           ),
         ],
-        appBar: customAppBar(title: "New Ticket"),
+        appBar: customAppBar(
+          title: "New Ticket",
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          iconColor: Theme.of(context).colorScheme.tertiary,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -101,7 +115,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                     Text(
                       "Subject",
                       style: TextStyle(
-                          color: ColorConstant.black,
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 15,
                           fontFamily: FontConstant.jakartaSemiBold,
                           fontWeight: FontWeight.w700),
@@ -110,11 +124,11 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                       height: 10,
                     ),
                     customTextFieldWithoutIcon(
-                      hintText: "My Issue",
-                        onChange: (e){
+                      hintTextColor: Theme.of(context).colorScheme.secondary,
+                        hintText: "My Issue",
+                        onChange: (e) {
                           tickerController.issue.value = e;
-                        }
-                    ),
+                        }),
                   ],
                 ),
                 SizedBox(
@@ -126,7 +140,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                     Text(
                       'Priority',
                       style: TextStyle(
-                          color: ColorConstant.black,
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 15,
                           fontFamily: FontConstant.jakartaSemiBold,
                           fontWeight: FontWeight.w700),
@@ -135,31 +149,36 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                       height: 10,
                     ),
                     TextField(
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 14,
+                          fontFamily: FontConstant.jakartaMedium,
+                          fontWeight: FontWeight.w500),
                       controller: textEditingController,
                       decoration: InputDecoration(
                         hintStyle: TextStyle(
-                            color: ColorConstant.darkestGrey,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 14,
                             fontFamily: FontConstant.jakartaMedium,
                             fontWeight: FontWeight.w500),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                             width: 1,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                             width: 1,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                           borderSide: BorderSide(
-                            color: ColorConstant.grey,
+                            color: Theme.of(context).colorScheme.outline,
                             width: 1,
                           ),
                         ),
@@ -191,36 +210,33 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                                     height: 20,
                                   ),
                                   customRadioButtonForTicker(
-                                    coin: tickerController.coin,
-                                    value: "3",
-                                    typeName: "High",
+                                      coin: tickerController.coin,
+                                      value: "3",
+                                      typeName: "High",
                                       change: (v) {
                                         textEditingController.text = "High";
-                                      }
-                                  ),
+                                      }),
                                   customRadioButtonForTicker(
-                                    coin: tickerController.coin,
-                                    value: "2",
-                                    typeName: "Medium",
-                                      change: (v){
+                                      coin: tickerController.coin,
+                                      value: "2",
+                                      typeName: "Medium",
+                                      change: (v) {
                                         textEditingController.text = "Medium";
-                                      }
-                                  ),
+                                      }),
                                   customRadioButtonForTicker(
-                                    coin: tickerController.coin,
-                                    value: "1",
-                                    typeName: "Low",
-                                      change: (v){
+                                      coin: tickerController.coin,
+                                      value: "1",
+                                      typeName: "Low",
+                                      change: (v) {
                                         textEditingController.text = "Low";
-                                      }
-                                  ),
+                                      }),
                                 ],
                               ),
                             ));
                           },
                           icon: Icon(
                             Icons.keyboard_arrow_down,
-                            color: ColorConstant.darkestGrey,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                       ),
@@ -236,7 +252,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                     Text(
                       "Message",
                       style: TextStyle(
-                          color: ColorConstant.black,
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 15,
                           fontFamily: FontConstant.jakartaSemiBold,
                           fontWeight: FontWeight.w700),
@@ -245,11 +261,12 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                       height: 10,
                     ),
                     customTextFieldWithoutIcon(
-                        hintText: "Message", maxlines: 4,
-                      onChange: (e){
-                        tickerController.message.value = e;
-                      }
-                    ),
+                      hintTextColor: Theme.of(context).colorScheme.secondary,
+                        hintText: "Message",
+                        maxlines: 4,
+                        onChange: (e) {
+                          tickerController.message.value = e;
+                        }),
                   ],
                 ),
                 SizedBox(
@@ -264,7 +281,14 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                         await FilePicker.platform.pickFiles(
                       allowMultiple: false,
                       type: FileType.custom,
-                      allowedExtensions: ['jpg', 'png', 'mp4', 'mov', 'pdf', 'doc'],
+                      allowedExtensions: [
+                        'jpg',
+                        'png',
+                        'mp4',
+                        'mov',
+                        'pdf',
+                        'doc'
+                      ],
                     );
                     if (result != null) {
                       setState(() {
@@ -274,7 +298,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                     }
                   },
                   child: DottedBorder(
-                    color: ColorConstant.grey,
+                    color: Theme.of(context).colorScheme.outline,
                     strokeWidth: 1,
                     child: SizedBox(
                       height: 104,
@@ -283,7 +307,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(ImageConstant.cloud),
+                          SvgPicture.asset(ImageConstant.cloud, color: Theme.of(context).colorScheme.primary,),
                           SizedBox(
                             height: 10,
                           ),
@@ -291,7 +315,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                             "Choose file here",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ColorConstant.darkestGrey,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 14,
                                 fontFamily: FontConstant.jakartaMedium,
                                 fontWeight: FontWeight.w500),
@@ -303,7 +327,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                             ".JPG  .PNG   .MP4 and .MOV are allowed",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ColorConstant.darkestGrey,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 14,
                                 fontFamily: FontConstant.jakartaMedium,
                                 fontWeight: FontWeight.w500),
@@ -336,7 +360,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                                 text: attachment[index].path.split('/').last ??
                                     '',
                                 style: TextStyle(
-                                    color: ColorConstant.midNight,
+                                    color: Theme.of(context).colorScheme.primary,
                                     fontSize: 14,
                                     fontFamily: FontConstant.jakartaMedium,
                                     fontWeight: FontWeight.w500),
@@ -345,7 +369,7 @@ class _TickerSellerInfoScreenState extends State<TickerSellerInfoScreen> {
                                     text:
                                         " (${(attachment[index].lengthSync() ?? 1) / 1000} KB)",
                                     style: TextStyle(
-                                        color: ColorConstant.darkestGrey,
+                                        color: Theme.of(context).colorScheme.secondary,
                                         fontSize: 14,
                                         fontFamily: FontConstant.jakartaMedium,
                                         fontWeight: FontWeight.w500),

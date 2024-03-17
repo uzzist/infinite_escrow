@@ -13,6 +13,7 @@ ThemeData darkTheme = ThemeData(
       secondary: ColorConstant.offWhite,
       tertiary: ColorConstant.white,
       outline: ColorConstant.offWhite,
+      primaryContainer: ColorConstant.grey
     ),
   appBarTheme: AppBarTheme(
       backgroundColor: ColorConstant.black,

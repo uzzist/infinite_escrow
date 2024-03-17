@@ -61,6 +61,9 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
       child: Scaffold(
         appBar: customAppBar(
           title: "Escrow details",
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          iconColor: Theme.of(context).colorScheme.tertiary,
           isActionsShow: true,
           actions: [
             model?.status == 1 || model?.status == 9
@@ -72,7 +75,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                           height: 300,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                              color: ColorConstant.white,
+                              color: Theme.of(context).colorScheme.primaryContainer,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20))),
@@ -174,14 +177,14 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                         Text(
                           "Cancel",
                           style: TextStyle(
-                              color: ColorConstant.black,
+                              color: Theme.of(context).colorScheme.tertiary,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
                           width: 5,
                         ),
-                        SvgPicture.asset(ImageConstant.close),
+                        SvgPicture.asset(ImageConstant.close, color: Theme.of(context).colorScheme.tertiary),
                         SizedBox(
                           width: 5,
                         ),
@@ -395,123 +398,121 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      Visibility(
-                        visible: model?.getStatusString() != "Accepted" && model?.getStatusString() != "Cancelled",
+                    model?.status == 1 || model?.status == 9
+                        ? Container()
+                        : TextButton(
+                        onPressed: () {
+                          Get.bottomSheet(
+                            Container(
+                              height: 300,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: ColorConstant.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    "Confirmation!",
+                                    style: TextStyle(
+                                        color: ColorConstant.midNight,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text('Accept escrow'),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 163.5,
+                                        height: 56,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: ColorConstant.black,
+                                                width: 2)),
+                                        child: TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                              var http = HttpRequest();
+                                              var formData = {};
+                                              formData['escrow_id'] = model?.id ?? 0;
+                                              var formatBody = formData.map<String, String>(
+                                                      (key, value) =>
+                                                      MapEntry(key, value.toString()));
+                                              SnackBarMessage.showLoading(context);
+                                              http
+                                                  .acceptEscrow(formatBody)
+                                                  .then((value) {
+                                                if (value.success) {
+                                                  getData();
+                                                } else {
+                                                  SnackBarMessage.errorSnackbar(
+                                                      context,
+                                                      'something went wrong please try again');
+                                                }
+                                              });
+                                            },
+                                            child: Text(
+                                              "Yes, I’m sure",
+                                              style: TextStyle(
+                                                  color: ColorConstant.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ),
+                                      Container(
+                                        width: 163.5,
+                                        height: 56,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: ColorConstant.black,
+                                                width: 2)),
+                                        child: TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            child: Text(
+                                              "No, Go back",
+                                              style: TextStyle(
+                                                  color: ColorConstant.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.bottomSheet(
-                                  Container(
-                                    height: 300,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                        color: ColorConstant.white,
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20))),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          "Confirmation!",
-                                          style: TextStyle(
-                                              color: ColorConstant.midNight,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text('Accept escrow'),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              width: 163.5,
-                                              height: 56,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: ColorConstant.black,
-                                                      width: 2)),
-                                              child: TextButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                    var http = HttpRequest();
-                                                    var formData = {};
-                                                    formData['escrow_id'] = model?.id ?? 0;
-                                                    var formatBody = formData.map<String, String>(
-                                                            (key, value) =>
-                                                            MapEntry(key, value.toString()));
-                                                    SnackBarMessage.showLoading(context);
-                                                    http
-                                                        .acceptEscrow(formatBody)
-                                                        .then((value) {
-                                                      if (value.success) {
-                                                        getData();
-                                                      } else {
-                                                        SnackBarMessage.errorSnackbar(
-                                                            context,
-                                                            'something went wrong please try again');
-                                                      }
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    "Yes, I’m sure",
-                                                    style: TextStyle(
-                                                        color: ColorConstant.black,
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w600),
-                                                  )),
-                                            ),
-                                            Container(
-                                              width: 163.5,
-                                              height: 56,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: ColorConstant.black,
-                                                      width: 2)),
-                                              child: TextButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  child: Text(
-                                                    "No, Go back",
-                                                    style: TextStyle(
-                                                        color: ColorConstant.black,
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w600),
-                                                  )),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                "Accept",
-                                style: TextStyle(
-                                    color: ColorConstant.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600),
-                              ),
+                            Text(
+                              "Accept",
+                              style: TextStyle(
+                                  color: ColorConstant.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
                               width: 5,
                             ),
-                            Icon(Icons.check_circle_outlined)
+                            Icon(Icons.check_circle_outlined, color: ColorConstant.black,),
                           ],
-                        ),
-                      ),
+                        )),
                       SizedBox(height: 10),
                       (model?.disputerId ?? 0) > 0
                           ? Row(
@@ -520,14 +521,14 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                                 Text(
                                   "Disputed by",
                                   style: TextStyle(
-                                      color: ColorConstant.darkestGrey,
+                                      color: Theme.of(context).colorScheme.secondary,
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   model?.disputeName ?? '',
                                   style: TextStyle(
-                                      color: ColorConstant.midNight,
+                                      color: Theme.of(context).colorScheme.primary,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -560,7 +561,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                           : Text(
                               "Dispute reason :",
                               style: TextStyle(
-                                  color: ColorConstant.darkestGrey,
+                                  color: Theme.of(context).colorScheme.secondary,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -901,6 +902,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                           child: SvgPicture.asset(
                             ImageConstant.attachments,
                             fit: BoxFit.scaleDown,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                         suffixIcon: InkWell(
@@ -943,12 +945,16 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                           child: SvgPicture.asset(
                             ImageConstant.send,
                             fit: BoxFit.scaleDown,
+                              color: Theme.of(context).colorScheme.primary
                           ),
                         ),
                         hintStyle: TextStyle(
-                            color: ColorConstant.midNight,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 13,
                             fontWeight: FontWeight.w500)),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor
+                    ),
                   ),
                 ),
               ],

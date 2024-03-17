@@ -6,6 +6,7 @@ class ChangePassword extends StatefulWidget {
   bool isForget;
   String token;
   String email;
+
   ChangePassword(
       {super.key,
       required this.isForget,
@@ -19,6 +20,7 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   Map<String, String> form = {};
   bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -134,7 +136,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                 )),
           ),
         ],
-        appBar: customAppBar(title: "Change Password"),
+        appBar: customAppBar(
+            title: "Change Password",
+            iconColor: Theme.of(context).colorScheme.tertiary,
+            titleColor: Theme.of(context).colorScheme.tertiary,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor),
         body: Padding(
           padding: EdgeInsets.all(15),
           child: Column(
@@ -147,7 +153,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         Text(
                           "Current Password",
                           style: TextStyle(
-                              color: ColorConstant.midNight,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w500),
                         ),
@@ -155,6 +161,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                           height: 10,
                         ),
                         customTextField(
+                          hintTextColor: Theme.of(context).colorScheme.secondary,
+                            prefixIconColor: Theme.of(context).colorScheme.primary,
                             onChange: (e) {
                               form['current_password'] = e;
                             },
@@ -172,7 +180,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     "New Password",
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),
@@ -180,6 +188,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                     height: 10,
                   ),
                   customTextField(
+                      hintTextColor: Theme.of(context).colorScheme.secondary,
+                      prefixIconColor: Theme.of(context).colorScheme.primary,
                       onChange: (e) {
                         form['password'] = e;
                       },
@@ -196,7 +206,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     "Repeat Password",
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),
@@ -204,6 +214,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                     height: 10,
                   ),
                   customTextField(
+                      hintTextColor: Theme.of(context).colorScheme.secondary,
+                      prefixIconColor: Theme.of(context).colorScheme.primary,
                       onChange: (e) {
                         form['repeatPassword'] = e;
                       },
@@ -217,7 +229,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               Text(
                 "It's better to have:",
                 style: TextStyle(
-                    color: ColorConstant.darkestGrey,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 15,
                     fontWeight: FontWeight.w500),
               ),
@@ -229,7 +241,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     "-",
                     style: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 15,
                         fontWeight: FontWeight.w600),
                   ),
@@ -239,7 +251,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     " Upper & lower case letters",
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),
@@ -253,7 +265,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     "-",
                     style: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 15,
                         fontWeight: FontWeight.w600),
                   ),
@@ -263,7 +275,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     " Include symbol  and number(123\$&)",
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),
@@ -277,7 +289,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     "-",
                     style: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 15,
                         fontWeight: FontWeight.w600),
                   ),
@@ -287,7 +299,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   Text(
                     " More than 8 characters",
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),

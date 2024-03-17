@@ -24,12 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
         appBar: customAppBar(
             title: "",
-            backgroundColor: Theme.of(context).brightness == Brightness.light
-                ? ColorConstant.white
-                : ColorConstant.black,
-          iconColor: Theme.of(context).brightness == Brightness.light
-              ? ColorConstant.black
-              : ColorConstant.white
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          iconColor: Theme.of(context).colorScheme.tertiary
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -41,9 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Text(
                   "Create Account",
                   style: TextStyle(
-                      color:Theme.of(context).brightness == Brightness.light
-                          ? ColorConstant.midNight
-                          : ColorConstant.white,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
@@ -55,24 +49,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     hintText: "First Name",
                     prefixIcon: ImageConstant.person,
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
+                    prefixIconColor: Theme.of(context).colorScheme.secondary
                 ),
                 SizedBox(height: 10),
                 customTextField(
                     onChange: (value) {
                       formData['lastname'] = value;
                     },
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite,
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
+                    prefixIconColor: Theme.of(context).colorScheme.secondary,
                     hintText: "Last Name",
                     prefixIcon: ImageConstant.person),
                 SizedBox(height: 10),
@@ -91,12 +77,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ? ImageConstant.showPassword
                         : ImageConstant.hidePassword,
                     prefixIcon: ImageConstant.key,
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
+                    prefixIconColor:Theme.of(context).colorScheme.secondary
                 ),
                 SizedBox(height: 10),
                 customTextField(
@@ -105,12 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     hintText: "User Name",
                     prefixIcon: ImageConstant.account,
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
+                    prefixIconColor: Theme.of(context).colorScheme.secondary
                 ),
                 SizedBox(height: 10),
                 customTextField(
@@ -119,12 +97,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     hintText: "Email",
                     prefixIcon: ImageConstant.email,
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                        ? ColorConstant.darkestGrey
-                        : ColorConstant.offWhite
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
+                    prefixIconColor: Theme.of(context).colorScheme.secondary
                 ),
                 SizedBox(height: 10),
                 IntlPhoneField(
@@ -134,31 +108,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     hintText: 'Phone Number',
                     hintStyle: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.light ? ColorConstant.darkestGrey : ColorConstant.white,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 14,
                         fontFamily: FontConstant.jakartaMedium,
                         fontWeight: FontWeight.w500),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: ColorConstant.grey,
+                        color: Theme.of(context).colorScheme.outline,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(0),
                       borderSide: BorderSide(
-                        color: ColorConstant.grey,
+                        color: Theme.of(context).colorScheme.outline,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(0),
                       borderSide: BorderSide(
-                        color: ColorConstant.grey,
+                        color: Theme.of(context).colorScheme.outline,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(0),
                       borderSide: BorderSide(
-                        color: ColorConstant.grey,
+                        color: Theme.of(context).colorScheme.outline,
                       ),
                     ),
                   ),

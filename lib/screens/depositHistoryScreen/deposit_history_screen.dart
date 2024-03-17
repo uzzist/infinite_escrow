@@ -43,6 +43,9 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
       length: 2,
       child: Scaffold(
         appBar: customAppBar(
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          iconColor: Theme.of(context).colorScheme.tertiary,
           title: "Deposit History",
           isActionsShow: true,
           actions: [
@@ -53,7 +56,7 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                     title: "New Deposit",
                   ));
                 },
-                icon: SvgPicture.asset(ImageConstant.plus))
+                icon: SvgPicture.asset(ImageConstant.plus, color: Theme.of(context).colorScheme.primary,))
           ],
         ),
         body: listModels.isEmpty
@@ -120,6 +123,7 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
                             color: ColorConstant.white,
                             borderRadius: BorderRadius.circular(4),
                           ),
+                          indicatorSize: TabBarIndicatorSize.tab,
                           unselectedLabelColor: ColorConstant.black,
                           labelColor: ColorConstant.black,
                           labelStyle: TextStyle(

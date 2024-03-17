@@ -63,7 +63,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     for (var i in list)
                       Padding(
                         padding: EdgeInsets.only(bottom: 10),
-                        child: customNotificationContainer(model: i),
+                        child: customNotificationContainer(model: i, context: context),
                       )
                   ],
                 ),

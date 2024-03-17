@@ -69,8 +69,12 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                 )),
           ),
         ],
-        appBar: customAppBar(title: ""),
-        backgroundColor: ColorConstant.white,
+        appBar: customAppBar(
+          title: "",
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          iconColor: Theme.of(context).colorScheme.tertiary,
+          titleColor: Theme.of(context).colorScheme.tertiary,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15),
@@ -83,7 +87,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                 Text(
                   "New Escrow",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w700,
                       fontFamily: FontConstant.jakartaBold,
                       fontSize: 32),
@@ -91,7 +95,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                 Text(
                   "Start your new escrow and other texts here",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500,
                       fontSize: 14),
                 ),
@@ -100,6 +104,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Obx(() => customNewEscrowContainer(
+                      context: context,
                         isActive: newEscrowController.isSeller,
                         title: "I'm Seller",
                         onPressed: () {
@@ -107,6 +112,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                           newEscrowController.isBuyer.value = false;
                         })),
                     Obx(() => customNewEscrowContainer(
+                      context: context,
                         isActive: newEscrowController.isBuyer,
                         title: "I'm Buyer",
                         onPressed: () {
@@ -126,10 +132,13 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: ColorConstant.grey,
+                      color: Theme.of(context).colorScheme.outline,
                     ),
                   ),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiary
+                    ),
                     onTap: () {
                       customCurrencyBottomSheetForEscrow(
                           context,
@@ -161,7 +170,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                       ),
                       hintText: "Select Escrow type",
                       hintStyle: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -182,6 +191,9 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                     ),
                   ),
                   child: TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiary
+                    ),
                     onChanged: (e) {
                       newEscrowController.value = e;
                     },
@@ -194,7 +206,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                         child: Text(
                           "For",
                           style: TextStyle(
-                              color: ColorConstant.black,
+                              color: Theme.of(context).colorScheme.tertiary,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ),
@@ -203,7 +215,7 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SvgPicture.asset(currencyImageByName[coin]!),
+                          SvgPicture.asset(currencyImageByName[coin]!, color: Theme.of(context).colorScheme.primary,),
                           IconButton(
                               onPressed: () {
                                 customCurrencyBottomSheet(
@@ -218,13 +230,13 @@ class _NewEscrowScreenState extends State<NewEscrowScreen> {
                               },
                               icon: Icon(
                                 Icons.keyboard_arrow_down,
-                                color: ColorConstant.darkestGrey,
+                                color: Theme.of(context).colorScheme.secondary,
                               ))
                         ],
                       ),
                       hintText: "Amount",
                       hintStyle: TextStyle(
-                          color: ColorConstant.darkestGrey,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),

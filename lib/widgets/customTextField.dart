@@ -75,10 +75,16 @@ TextFormField customTextField(
 TextField customTextFieldWithoutIcon({
   required String hintText,
   final int maxlines = 1,
+  final Color? hintTextColor,
   TextInputType? keyboardType,
   required Function onChange,
 }) {
   return TextField(
+    style: TextStyle(
+        color: hintTextColor ?? ColorConstant.darkestGrey,
+        fontSize: 14,
+        fontFamily: FontConstant.jakartaMedium,
+        fontWeight: FontWeight.w500),
     maxLines: maxlines,
     keyboardType: keyboardType,
     onChanged: (e) {
@@ -87,7 +93,7 @@ TextField customTextFieldWithoutIcon({
     decoration: InputDecoration(
       hintText: hintText,
       hintStyle: TextStyle(
-          color: ColorConstant.darkestGrey,
+          color: hintTextColor ?? ColorConstant.darkestGrey,
           fontSize: 14,
           fontFamily: FontConstant.jakartaMedium,
           fontWeight: FontWeight.w500),

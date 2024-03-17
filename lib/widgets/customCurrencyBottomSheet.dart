@@ -11,6 +11,7 @@ Future<dynamic> customCurrencyBottomSheet(
         return Container(
           padding: EdgeInsets.all(15),
           height: 443,
+          color: Theme.of(context).colorScheme.primaryContainer,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

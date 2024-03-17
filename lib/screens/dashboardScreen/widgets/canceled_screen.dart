@@ -44,12 +44,15 @@ class _CanceledScreenState extends State<CanceledScreen> {
       appBar: customAppBar(
         title: "Canceled",
         isActionsShow: true,
+        titleColor: Theme.of(context).colorScheme.tertiary,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconColor: Theme.of(context).colorScheme.tertiary,
         actions: [
           InkWell(
               onTap: () {
                 navigateToPage(NewEscrowScreen());
               },
-              child: SvgPicture.asset(ImageConstant.plus)),
+              child: SvgPicture.asset(ImageConstant.plus, color: Theme.of(context).colorScheme.primary,)),
           SizedBox(width: 10)
         ],
       ),

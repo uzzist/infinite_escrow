@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:infinite_escrow/routes/routes.dart';
 import 'package:infinite_escrow/screens/notificationScreen/blogpost_screen.dart';
 import '../models/blog_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-InkWell customNotificationContainer({required BlogModel model
+InkWell customNotificationContainer({required BlogModel model, required BuildContext context
 }) {
   LineSplitter ls = new LineSplitter();
   List<String> _masForUsing = ls.convert(model.descriptionNic);
@@ -20,7 +21,7 @@ InkWell customNotificationContainer({required BlogModel model
       height: 120,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: ColorConstant.white,
+        color: Theme.of(context).colorScheme.primaryContainer,
         boxShadow: [
           BoxShadow(
             color: ColorConstant.grey.withOpacity(0.2),

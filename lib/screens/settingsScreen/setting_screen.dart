@@ -28,6 +28,9 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: customAppBar(
         title: "Setting",
         isActionsShow: true,
+        titleColor: Theme.of(context).colorScheme.tertiary,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconColor: Theme.of(context).colorScheme.tertiary,
         actions: [
           IconButton(
               onPressed: () {

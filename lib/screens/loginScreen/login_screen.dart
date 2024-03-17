@@ -49,9 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 20),
                 customTextField(
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                            ? ColorConstant.darkestGrey
-                            : ColorConstant.offWhite,
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
                     onChange: (e) {
                       setState(() {
                         formData['username'] = e;
@@ -59,14 +57,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     hintText: "User Name",
                     prefixIcon: ImageConstant.account,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                            ? ColorConstant.darkestGrey
-                            : ColorConstant.offWhite),
+                    prefixIconColor: Theme.of(context).colorScheme.secondary),
                 SizedBox(height: 20),
                 customTextField(
-                    hintTextColor: Theme.of(context).brightness == Brightness.light
-                            ? ColorConstant.darkestGrey
-                            : ColorConstant.offWhite,
+                    hintTextColor: Theme.of(context).colorScheme.secondary,
                     onSuffixTap: () {
                       setState(() {
                         hidePassword = !hidePassword;
@@ -83,9 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? ImageConstant.showPassword
                         : ImageConstant.hidePassword,
                     prefixIcon: ImageConstant.key,
-                    prefixIconColor: Theme.of(context).brightness == Brightness.light
-                            ? ColorConstant.darkestGrey
-                            : ColorConstant.offWhite),
+                    prefixIconColor: Theme.of(context).colorScheme.secondary),
                 SizedBox(height: 30),
                 Container(
                   height: 56,
@@ -173,10 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Sign up",
                           style: TextStyle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? ColorConstant.midNight
-                                  : ColorConstant.white,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         )),
@@ -187,10 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Forget Password?",
                           style: TextStyle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? ColorConstant.midNight
-                                  : ColorConstant.white,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ))

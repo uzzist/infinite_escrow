@@ -160,7 +160,9 @@ class _NewDepositScreenState extends State<NewDepositScreen> {
                 )),
           ),
         ],
-        appBar: customAppBar(title: widget.title),
+        appBar: customAppBar(title: widget.title, backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            titleColor: Theme.of(context).colorScheme.tertiary,
+            iconColor: Theme.of(context).colorScheme.tertiary),
         body: Padding(
           padding: EdgeInsets.all(15),
           child: Column(

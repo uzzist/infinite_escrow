@@ -2,6 +2,7 @@ import 'package:infinite_escrow/routes/routes.dart';
 
 Widget customNewEscrowContainer(
     {required RxBool isActive,
+      required BuildContext context,
     required void Function()? onPressed,
     required String title}) {
   return Container(
@@ -14,7 +15,7 @@ Widget customNewEscrowContainer(
               color: ColorConstant.lightGreen,
             )
           : Border.all(
-              color: ColorConstant.grey,
+              color: Theme.of(context).colorScheme.outline,
             ),
     ),
     child: TextButton(
@@ -24,11 +25,11 @@ Widget customNewEscrowContainer(
           children: [
             isActive.value
                 ? SvgPicture.asset(ImageConstant.checkRight)
-                : SvgPicture.asset(ImageConstant.circle),
+                : SvgPicture.asset(ImageConstant.circle, color: Theme.of(context).colorScheme.secondary),
             SizedBox(width: 10),
             Text(title,
                 style: TextStyle(
-                    color: ColorConstant.midNight,
+                    color: isActive.value ? ColorConstant.midNight : Theme.of(context).colorScheme.secondary,
                     fontSize: 14,
                     fontFamily: FontConstant.jakartaBold,
                     fontWeight: FontWeight.w700)),

@@ -21,14 +21,13 @@ class _FAScreenState extends State<FAScreen> {
   String pass = '';
   ProfileModel? profile;
   bool loading = false;
+
   @override
   void initState() {
     super.initState();
     var http = HttpRequest();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      http.getUser().then((value) => {
-        profile = value
-      });
+      http.getUser().then((value) => {profile = value});
       SnackBarMessage.showLoading(context);
       http.getFaShow().then((value) {
         Navigator.pop(context);
@@ -43,39 +42,41 @@ class _FAScreenState extends State<FAScreen> {
   }
 
   Future<void> mobileAppUrl(dynamic context) async {
-  if(Platform.isAndroid){
-    final Uri url = Uri(
-        scheme: 'https',
-        host: 'play.google.com',
-        query: 'id=com.google.android.apps.authenticator2',
-        path:
-        '/store/apps/details');https://apps.apple.com/us/app/google-authenticator/id388497605
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      SnackBarMessage.errorSnackbar(context, 'Some thing went Wrong!');
+    if (Platform.isAndroid) {
+      final Uri url = Uri(
+          scheme: 'https',
+          host: 'play.google.com',
+          query: 'id=com.google.android.apps.authenticator2',
+          path: '/store/apps/details');
+      https: //apps.apple.com/us/app/google-authenticator/id388497605
+      if (!await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      )) {
+        SnackBarMessage.errorSnackbar(context, 'Some thing went Wrong!');
+      }
+    } else {
+      final Uri url = Uri(
+          scheme: 'https',
+          host: 'apps.apple.com',
+          path: '/us/app/google-authenticator/id388497605');
+      if (!await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      )) {
+        SnackBarMessage.errorSnackbar(context, 'Some thing went Wrong!');
+      }
     }
-  }else{
-    final Uri url = Uri(
-        scheme: 'https',
-        host: 'apps.apple.com',
-        path:
-        '/us/app/google-authenticator/id388497605');
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      SnackBarMessage.errorSnackbar(context, 'Some thing went Wrong!');
-    }
-  }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Two Factor Authenticator"),
+      appBar: customAppBar(
+          title: "Two Factor Authenticator",
+          iconColor: Theme.of(context).colorScheme.tertiary,
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -88,7 +89,7 @@ class _FAScreenState extends State<FAScreen> {
                   Text(
                     code,
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 20,
                         fontWeight: FontWeight.w500),
                   ),
@@ -119,7 +120,7 @@ class _FAScreenState extends State<FAScreen> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(
-                  color: ColorConstant.midNight,
+                  color: Theme.of(context).colorScheme.primary,
                 )),
                 child: TextButton(
                     onPressed: () {
@@ -263,7 +264,7 @@ class _FAScreenState extends State<FAScreen> {
                         Text(
                             "${profile?.ts == 1 ? 'Disable' : 'Enable'} Two Factor Authenticator",
                             style: TextStyle(
-                                color: ColorConstant.midNight,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 17,
                                 fontFamily: FontConstant.jakartaSemiBold,
                                 fontWeight: FontWeight.w700)),
@@ -274,7 +275,7 @@ class _FAScreenState extends State<FAScreen> {
                           padding: const EdgeInsets.only(top: 3.0),
                           child: Icon(
                             Icons.arrow_forward,
-                            color: ColorConstant.midNight,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         )
                       ],
@@ -297,7 +298,7 @@ class _FAScreenState extends State<FAScreen> {
                     Text(
                       "Google Authenticator",
                       style: TextStyle(
-                          color: ColorConstant.midNight,
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 15,
                           fontWeight: FontWeight.w600),
                     ),
@@ -308,7 +309,7 @@ class _FAScreenState extends State<FAScreen> {
                       "Google Authenticator is a multifactor app for mobile devices. It generates timed codes used during the 2-step verification process. To use Google Authenticator, install the Google Authenticator application on your mobile device.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: ColorConstant.midNight,
+                          color: Theme.of(context).colorScheme.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
@@ -320,7 +321,7 @@ class _FAScreenState extends State<FAScreen> {
                       width: 179,
                       decoration: BoxDecoration(
                           border: Border.all(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                       )),
                       child: TextButton(
                           onPressed: () {
@@ -328,7 +329,7 @@ class _FAScreenState extends State<FAScreen> {
                           },
                           child: Text("Download App",
                               style: TextStyle(
-                                  color: ColorConstant.midNight,
+                                  color: Theme.of(context).colorScheme.primary,
                                   fontSize: 17,
                                   fontFamily: FontConstant.jakartaSemiBold,
                                   fontWeight: FontWeight.w700))),

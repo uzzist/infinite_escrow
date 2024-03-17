@@ -43,6 +43,9 @@ Future<dynamic> customCurrencyBottomSheetForEscrow(
                     },
                     decoration:  InputDecoration(
                       hintText: 'Search',
+                      hintStyle: TextStyle(
+                        color: ColorConstant.grey
+                      ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.green)
                       )

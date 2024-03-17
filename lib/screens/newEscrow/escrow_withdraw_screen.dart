@@ -7,7 +7,15 @@ class EscrowWithdrawScreen extends StatelessWidget {
   String coin;
   String escrowType;
   bool isSeller;
-  EscrowWithdrawScreen({super.key,required this.tTitle,  required this.title, required this.price, required this.coin, required this.escrowType, required this.isSeller});
+
+  EscrowWithdrawScreen(
+      {super.key,
+      required this.tTitle,
+      required this.title,
+      required this.price,
+      required this.coin,
+      required this.escrowType,
+      required this.isSeller});
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +25,24 @@ class EscrowWithdrawScreen extends StatelessWidget {
           height: 56,
           width: double.infinity,
           decoration: BoxDecoration(
-              border: Border.all(color: ColorConstant.midNight, width: 2)),
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primary, width: 2)),
           child: TextButton(
               onPressed: () {
                 navigateToOffAllNextPage(BottomNavigationScreen());
               },
               child: Text("Go to dashboard",
                   style: TextStyle(
-                      color: ColorConstant.midNight,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 17,
                       fontWeight: FontWeight.w600))),
         ),
       ],
-      appBar: customAppBar(title: title),
+      appBar: customAppBar(
+          title: title,
+          titleColor: Theme.of(context).colorScheme.tertiary,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          iconColor: Theme.of(context).colorScheme.tertiary),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Center(
@@ -47,7 +60,7 @@ class EscrowWithdrawScreen extends StatelessWidget {
                 tTitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Color(0xff404D58),
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 15,
                     fontWeight: FontWeight.w600),
               ),
@@ -65,7 +78,7 @@ class EscrowWithdrawScreen extends StatelessWidget {
                     price,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 28,
                         fontWeight: FontWeight.w600),
                   ),
@@ -76,7 +89,7 @@ class EscrowWithdrawScreen extends StatelessWidget {
                     coin,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 15,
                         fontWeight: FontWeight.w600),
                   ),
@@ -94,19 +107,21 @@ class EscrowWithdrawScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  isSeller ? Text(
-                    "As a Seller",
-                    style: TextStyle(
-                        color: ColorConstant.midNight,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                  ) : Text(
-                    "As a Buyer",
-                    style: TextStyle(
-                        color: ColorConstant.midNight,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                  ),
+                  isSeller
+                      ? Text(
+                          "As a Seller",
+                          style: TextStyle(
+                              color: ColorConstant.midNight,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        )
+                      : Text(
+                          "As a Buyer",
+                          style: TextStyle(
+                              color: ColorConstant.midNight,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        ),
                   Text(
                     "$escrowType",
                     style: TextStyle(

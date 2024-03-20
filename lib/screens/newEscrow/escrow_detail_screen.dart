@@ -398,7 +398,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                    model?.status == 1 || model?.status == 9
+                    model?.status == 1 || model?.status == 9 || model?.status == 2
                         ? Container()
                         : TextButton(
                         onPressed: () {

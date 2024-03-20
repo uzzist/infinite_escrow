@@ -1,5 +1,6 @@
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/routes/routes.dart';
+import 'package:infinite_escrow/screens/appAppearance/appAppearanceScreen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -219,6 +220,18 @@ class _SettingScreenState extends State<SettingScreen> {
               child: customSettingContainer(
                 image: ImageConstant.security,
                 title: "2FA Security",
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                navigateToPage(AppAppearanceScreen());
+              },
+              child: customSettingContainer(
+                image: ImageConstant.settings2,
+                title: "App Appearance",
               ),
             ),
           ],

@@ -73,7 +73,7 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                 )),
           ),
         ],
-        appBar: customAppBar(title: "New Milestone (Fund Escrow)"),
+        appBar: customAppBar(title: "New Milestone (Fund Escrow)", backgroundColor: Theme.of(context).appBarTheme.backgroundColor, titleColor: Theme.of(context).colorScheme.tertiary, iconColor: Theme.of(context).colorScheme.tertiary),
         body: Padding(
           padding: EdgeInsets.all(15),
           child: Column(
@@ -85,7 +85,7 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                   Text(
                     "Title",
                     style: TextStyle(
-                        color: ColorConstant.midNight,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),
@@ -94,7 +94,7 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                   ),
                   customTextFieldWithoutIcon(hintText: "Title", onChange: (e){
                     controller.title.value = e;
-                  }),
+                  }, hintTextColor: Theme.of(context).colorScheme.secondary),
                 ],
               ),
               SizedBox(
@@ -110,6 +110,11 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                   ),
                 ),
                 child: TextFormField(
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500
+                  ),
                   onChanged: (e){
                     controller.value.value = e;
                   },
@@ -130,7 +135,7 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                         child: Text(
                           controller.coin.value,
                           style: TextStyle(
-                              color: ColorConstant.black,
+                              color: Theme.of(context).colorScheme.tertiary,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ),
@@ -138,7 +143,7 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                     ),
                     hintText: "Amount",
                     hintStyle: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 14,
                         fontWeight: FontWeight.w500),
                   ),

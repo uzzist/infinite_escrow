@@ -51,6 +51,7 @@ dependencies:
   provider: 6.0.0
   image_picker: 1.0.0
   intl: ^0.17.0
+  get_storage: ^2.1.1
 
 icons_launcher:
   image_path: "assets/images/app_logo.jpeg"

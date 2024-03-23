@@ -114,6 +114,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
                 SizedBox(height: 20),
                 OtpTextField(
+                  textStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary
+                  ),
                   numberOfFields: 6,
                   fieldWidth: 45,
                   handleControllers: (e) {

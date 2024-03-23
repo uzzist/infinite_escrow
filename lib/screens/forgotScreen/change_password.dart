@@ -111,7 +111,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     loading
                         ? CircularProgressIndicator(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.primaryContainer,
                           )
                         : Text(
                             !widget.isForget

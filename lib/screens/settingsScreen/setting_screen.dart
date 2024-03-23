@@ -113,7 +113,7 @@ class _SettingScreenState extends State<SettingScreen> {
               },
               icon: Icon(
                 Icons.logout,
-                color: ColorConstant.black,
+                color: Theme.of(context).colorScheme.tertiary,
               ))
         ],
       ),

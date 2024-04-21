@@ -39,6 +39,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
         setState(() {
           listModels = TransactionModel.fromJsonToList(
               value.data['data']['escrows']['data']);
+          print(listModels);
 
           filteredListModel = listModels.where((element) {
             return element.currency == 'NGN';

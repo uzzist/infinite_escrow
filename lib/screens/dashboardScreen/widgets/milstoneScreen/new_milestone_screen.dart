@@ -14,6 +14,7 @@ class NewMileStoneScreen extends StatefulWidget {
 class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
   MilestoneController controller = MilestoneController();
   bool loading = false;
+  List<String> optn =['Wallet'];
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -27,128 +28,132 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
             width: double.infinity,
             decoration: BoxDecoration(color: ColorConstant.lightGreen),
             child: TextButton(
-                // onPressed: loading? (){}: () {
-                //   if(controller.value.value == ''){
-                //     SnackBarMessage.errorSnackbar(context, "Amount is required");
-                //     return;
-                //   }
-                //   setState(() {
-                //     loading = true;
-                //   });
-                //   var http = HttpRequest();
-                //   var body = {
-                //     'escrow_id': widget.id.toString(),
-                //     'amount': controller.value.value,
-                //     'note': controller.title.value
-                //   };
-                //   http.submitMilestone(body).then((value) {
-                //     setState(() {
-                //       loading = false;
-                //     });
-                //     if(value.success){
-                //       navigateToOffAllNextPage(NewWithdrawLOGScreen(title: 'New Milestone (Fund Escrow)'));
-                //     }else{
-                //       SnackBarMessage.errorSnackbar(context, value.message);
-                //     }
-                //   });
-                // },
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                    String selectedOption = "Wallet";
-                    return StatefulBuilder(
-                      builder: (context, setState) => AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                        title: Text("Select an option"),
-                        content: Container(
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              DropdownButton<String>(
-                                value: selectedOption,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    selectedOption = newValue!;
-                                  });
-                                },
-                                items: <String>['Wallet', 'Checkout']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                              Spacer(),
-                            Container(
-                              height: 56,
-                              width: double.infinity,
-                              decoration: BoxDecoration(color: ColorConstant.lightGreen),
-                              child: TextButton(
-                                onPressed: loading? (){
-                                }: () {
-                                  if(controller.value.value == ''){
-                                    Navigator.of(context).pop();
-                                    SnackBarMessage.errorSnackbar(context, "Amount is required");
-                                    return;
-                                  }
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  var http = HttpRequest();
-                                  var body = {
-                                    'escrow_id': widget.id.toString(),
-                                    'amount': controller.value.value,
-                                    'note': controller.title.value
-                                  };
-                                  http.submitMilestone(body).then((value) {
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                    if(value.success){
-                                      navigateToOffAllNextPage(NewWithdrawLOGScreen(title: 'New Milestone (Fund Escrow)'));
-                                    }else{
-                                      Navigator.of(context).pop();
-                                      SnackBarMessage.errorSnackbar(context, value.message);
-                                    }
-                                  });
-                                },
-                                  child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                loading ? CircularProgressIndicator() : Text("Submit",
-                                    style: TextStyle(
-                                        color: ColorConstant.midNight,
-                                        fontSize: 17,
-                                        fontFamily: FontConstant.jakartaSemiBold,
-                                        fontWeight: FontWeight.w700)),
-                                SizedBox(width: 10),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    color: ColorConstant.midNight,
-                                  ),
-                                )
-                              ],
-                                                      )),
-                            ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                onPressed: loading? (){}: () {
+                  if(controller.value.value == ''){
+                    SnackBarMessage.errorSnackbar(context, "Amount is required");
+                    return;
+                  }
+                  setState(() {
+                    loading = true;
+                  });
+                  print(controller.coin.value.toString());
+                  var http = HttpRequest();
+                  var body = {
+                    'escrow_id': widget.id.toString(),
+                    'amount': controller.value.value,
+                    'note': controller.title.value,
+                    'currency_sym': controller.coin.value.toString()
+                  };
+                  http.submitMilestone(body).then((value) {
+                    setState(() {
+                      loading = false;
+                    });
+                    if(value.success){
+                      navigateToOffAllNextPage(NewWithdrawLOGScreen(title: 'New Milestone (Fund Escrow)'));
+                    }else{
+                      SnackBarMessage.errorSnackbar(context, value.message);
+                    }
                   });
                 },
+                // onPressed: () {
+                //   showDialog(
+                //       context: context,
+                //       builder: (context) {
+                //     String selectedOption = "Wallet";
+                //     return StatefulBuilder(
+                //       builder: (context, setState) => AlertDialog(
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.zero,
+                //         ),
+                //         title: Text("Select an option"),
+                //         content: Container(
+                //           height: MediaQuery.of(context).size.height * 0.4,
+                //           width: MediaQuery.of(context).size.width,
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.stretch,
+                //             children: [
+                //               DropdownButton<String>(
+                //                 value: selectedOption,
+                //                 onChanged: (newValue) {
+                //                   setState(() {
+                //                     selectedOption = newValue!;
+                //                     int selectedIndex = optn.indexWhere((option) => option == newValue);
+                //                     print(selectedIndex);
+                //                   });
+                //                 },
+                //                 items: optn
+                //                     .map<DropdownMenuItem<String>>((String value) {
+                //                   return DropdownMenuItem<String>(
+                //                     value: value,
+                //                     child: Text(value),
+                //                   );
+                //                 }).toList(),
+                //               ),
+                //               Spacer(),
+                //             Container(
+                //               height: 56,
+                //               width: double.infinity,
+                //               decoration: BoxDecoration(color: ColorConstant.lightGreen),
+                //               child: TextButton(
+                //                 onPressed: loading? (){
+                //                 }: () {
+                //                   if(controller.value.value == ''){
+                //                     Navigator.of(context).pop();
+                //                     SnackBarMessage.errorSnackbar(context, "Amount is required");
+                //                     return;
+                //                   }
+                //                   setState(() {
+                //                     loading = true;
+                //                   });
+                //                   var http = HttpRequest();
+                //                   var body = {
+                //                     'escrow_id': widget.id.toString(),
+                //                     'amount': controller.value.value,
+                //                     'note': controller.title.value
+                //                   };
+                //                   http.submitMilestone(body).then((value) {
+                //                     setState(() {
+                //                       loading = false;
+                //                     });
+                //                     if(value.success){
+                //                       navigateToOffAllNextPage(NewWithdrawLOGScreen(title: 'New Milestone (Fund Escrow)'));
+                //                     }else{
+                //                       Navigator.of(context).pop();
+                //                       SnackBarMessage.errorSnackbar(context, value.message);
+                //                     }
+                //                   });
+                //                 },
+                //                   child: Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 loading ? CircularProgressIndicator() : Text("Submit",
+                //                     style: TextStyle(
+                //                         color: ColorConstant.midNight,
+                //                         fontSize: 17,
+                //                         fontFamily: FontConstant.jakartaSemiBold,
+                //                         fontWeight: FontWeight.w700)),
+                //                 SizedBox(width: 10),
+                //                 Padding(
+                //                   padding: const EdgeInsets.only(top: 4.0),
+                //                   child: Icon(
+                //                     Icons.arrow_forward,
+                //                     color: ColorConstant.midNight,
+                //                   ),
+                //                 )
+                //               ],
+                //                                       )),
+                //             ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     );
+                //   });
+                // },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    loading? CircularProgressIndicator(color: Colors.white,): Text("Pay now",
+                    loading? CircularProgressIndicator(color: Colors.white,): Text("Create Milestone",
                         style: TextStyle(
                             color: ColorConstant.midNight,
                             fontSize: 17,
@@ -219,7 +224,7 @@ class _NewMileStoneScreenState extends State<NewMileStoneScreen> {
                       child: InkWell(
                         onTap: () {
                           customCurrencyBottomSheetForMilestone(
-                              context, controller.coin, "Pay Milestone",(){
+                              context, controller.coin, "Select Currency",(){
                                 setState(() {
 
                                 });

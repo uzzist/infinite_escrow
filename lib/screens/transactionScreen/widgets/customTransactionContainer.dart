@@ -2,20 +2,28 @@ import 'package:infinite_escrow/routes/routes.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 InkWell customTransactionContainer({
-  required String price,
-  required Color containerColor,
-  required String containerTitle,
-  required String title,
-  required String currencyName,
-  required int id,
-  required DateTime date,
+  required var price,
+  // required Color containerColor,
+  // required var containerTitle,
+  required var title,
+  required var currencyName,
+  required id,
+  // required DateTime date,
+  required var trx,
+  required var profit,
+  required var trxType,
+  required var trxColor,
+  required var details,
+  required var remainingBalance,
 }) {
   return InkWell(
     onTap: () {
-      navigateToPage(EscrowDetailScreen( id: id,));
+      // navigateToPage(EscrowDetailScreen(
+      //   id: id,
+      // ));
     },
     child: Container(
-      height: 88,
+      height: 100,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(color: ColorConstant.white, boxShadow: [
         BoxShadow(
@@ -28,7 +36,10 @@ InkWell customTransactionContainer({
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: [Text(trx,style: TextStyle(
+            color: ColorConstant.midNight,
+            fontSize: 10,
+            fontWeight: FontWeight.w600),),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,16 +66,9 @@ InkWell customTransactionContainer({
               ),
               Row(
                 children: [
-                  Icon(
-                    Icons.access_time_rounded,
-                    color: ColorConstant.darkestGrey,
-                    size: 15,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
+
                   Text(
-                    timeago.format(date),
+                    "Current Wallet Balance",
                     style: TextStyle(
                         color: ColorConstant.darkestGrey,
                         fontSize: 12,
@@ -80,35 +84,52 @@ InkWell customTransactionContainer({
               Row(
                 children: [
                   Text(
-                    title,
+                    trxType,
                     style: TextStyle(
-                        color: ColorConstant.darkestGrey,
+                        color: trxColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     width: 5,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    height: 24,
-                    color: containerColor,
-                    child: Center(
-                      child: Text(
-                        containerTitle,
-                        style: TextStyle(
-                            color: ColorConstant.midNight,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  )
+                  Text(
+                    title,
+                    style: TextStyle(
+                        color: trxColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    '${double.parse(profit).toStringAsFixed(0)}',
+                    style: TextStyle(
+                        color: trxColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 8),
+                  //   height: 24,
+                  //   color: containerColor,
+                  //   child: Center(
+                  //     child: Text(
+                  //       containerTitle,
+                  //       style: TextStyle(
+                  //           color: ColorConstant.midNight,
+                  //           fontSize: 11,
+                  //           fontWeight: FontWeight.w500),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
               Row(
                 children: [
                   Text(
-                    "Details",
+                details,
                     style: TextStyle(
                         color: ColorConstant.darkestGrey,
                         fontSize: 12,
@@ -117,15 +138,29 @@ InkWell customTransactionContainer({
                   SizedBox(
                     width: 5,
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: ColorConstant.darkestGrey,
-                    size: 15,
-                  ),
+
                 ],
               )
             ],
-          )
+          ),
+          Row(children:[
+            Text(
+              remainingBalance,
+              style: TextStyle(
+                  color: ColorConstant.darkestGrey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600),
+            ),
+            Spacer(),
+            Text(
+              "Remaining Wallet Balance",
+              style: TextStyle(
+                  color: ColorConstant.darkestGrey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600),
+            ),
+          ])
+
         ],
       ),
     ),

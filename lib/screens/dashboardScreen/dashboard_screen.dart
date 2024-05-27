@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:infinite_escrow/core/http.dart';
 import 'package:infinite_escrow/core/messages.dart';
 import 'package:infinite_escrow/core/models/profile.dart';
@@ -35,7 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         });
       }
       http.getStates().then((value) {
-        if(value.data['code'] == 403){
+        if (value.data['code'] == 403) {
           http.clearToken();
           navigateToPage(LoginScreen());
           return;
@@ -67,18 +69,80 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  Future<void> _handleRefresh() {
+    final Completer<void> completer = Completer<void>();
+    Timer(const Duration(seconds: 3), () {
+      completer.complete();
+    });
+    setState(() {});
+    return completer.future.then<void>((_) {
+      var http = HttpRequest();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        SnackBarMessage.showLoading(context);
+        http.getUser().then((value) {
+          profile = value;
+          context.read<BaseState>().updateProfile(value);
+        });
+        var t = http.getCurrency();
+        if (t != null) {
+          setState(() {
+            coin.value = t;
+          });
+        }
+        http.getStates().then((value) {
+          if (value.data['code'] == 403) {
+            http.clearToken();
+            navigateToPage(LoginScreen());
+            return;
+          }
+          http.getEscrowCategoryList().then((value) {
+            if (value.success) {
+              http.saveEscrowCatagory(value.data['data']);
+            }
+          });
+          if (t != null) {
+            http.currencyExchange(coin.value).then((value1) {
+              Navigator.pop(context);
+              if (value1.success == true) {
+                setState(() {
+                  states = StatesModel.formJson(value.data['data']);
+                  states?.updateData(value1.data['data']);
+                });
+              }
+            });
+          } else {
+            Navigator.pop(context);
+            if (value.success == true) {
+              setState(() {
+                states = StatesModel.formJson(value.data['data']);
+              });
+            }
+          }
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,
+          color: Theme.of(context).brightness == Brightness.light
+              ? ColorConstant.black
+              : ColorConstant.white,
         ),
         elevation: 0,
         title: SvgPicture.asset(ImageConstant.logo),
         centerTitle: true,
         actions: [
-          SvgPicture.asset(currencyImageByName[coin.value]!, color: Theme.of(context).brightness == Brightness.light ? ColorConstant.black : ColorConstant.white,),
+          SvgPicture.asset(
+            currencyImageByName[coin.value]!,
+            color: Theme.of(context).brightness == Brightness.light
+                ? ColorConstant.black
+                : ColorConstant.white,
+          ),
           IconButton(
               onPressed: () {
                 customCurrencyBottomSheet(
@@ -151,26 +215,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(200)),
                       child: context.watch<BaseState>().profile?.image != null
                           ? Image.network(
-                        context.watch<BaseState>().profile?.image ?? '',
-                        fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.green,
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
-                      )
+                              context.watch<BaseState>().profile?.image ?? '',
+                              fit: BoxFit.cover,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.green,
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                            )
                           : SvgPicture.asset(
-                        ImageConstant.profilePicture,
-                        fit: BoxFit.cover,
-                      ),
+                              ImageConstant.profilePicture,
+                              fit: BoxFit.cover,
+                            ),
                     )),
                 SizedBox(
                   height: 10,
@@ -273,250 +340,252 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  navigateToPage(BalanceScreen());
-                },
-                child: customCurrencyContainer(
-                  currecy: coin.value,
-                  image: ImageConstant.balance,
-                  title: "Your Balance",
-                  price: states?.balance.toString() ?? '0',
-                  backgroundColor: ColorConstant.lightPurple,
-                  iconColor: ColorConstant.purple,
-                  iconContainerColor: ColorConstant.white,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(DepositHistoryScreen());
-                },
-                child: customCurrencyContainer(
-                  currecy: coin.value,
-                  image: ImageConstant.deposit,
-                  title: "Deposit",
-                  price: states?.depositAmount.toString() ?? '0',
-                  backgroundColor: ColorConstant.lightTurquoise,
-                  iconColor: ColorConstant.turquoise,
-                  iconContainerColor: ColorConstant.white,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(WithdrawlogScreen());
-                },
-                child: customCurrencyContainer(
-                  currecy: coin.value,
-                  image: ImageConstant.withdraw,
-                  title: "Withdrawal",
-                  price: states?.withdrawAmount.toString() ?? '0',
-                  backgroundColor: ColorConstant.lightMustard,
-                  iconColor: ColorConstant.mustard,
-                  iconContainerColor: ColorConstant.white,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(MilestoneScreen());
-                },
-                child: customCurrencyContainer(
-                  currecy: coin.value,
-                  image: ImageConstant.milestone,
-                  title: "Milestone funded",
-                  price: states?.milestoneAmount.toString() ?? '0',
-                  backgroundColor: ColorConstant.lightPink,
-                  iconColor: ColorConstant.pink,
-                  iconContainerColor: ColorConstant.white,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Escrows",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).colorScheme.primary,
-                    fontFamily: FontConstant.jakartaMedium,
-                    fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(AwaitingEscrowScreen());
-                },
-                child: Container(
-                  height: 64,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        ColorConstant.lightGreen,
-                        ColorConstant.lightGreen2
-                      ])),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(136, 144, 152, 0.2),
-                            shape: BoxShape.circle
-                        ),
-                        child: SvgPicture.asset(
-                          ImageConstant.time,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: SizedBox(
-                          height: 36,
-                          child: GradientText(
-                            "Awaiting for Accept",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: FontConstant.jakartaMedium,
-                                fontWeight: FontWeight.w500),
-                            colors: [
-                              ColorConstant.darkestGrey,
-                              ColorConstant.midNight,
-                            ],
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Row(
-                        children: [
-                          GradientText(
-                            states?.noAccepted.toString() ?? '0',
-                            style: TextStyle(
-                                fontSize: 28,
-                                fontFamily: FontConstant.jakartaBold,
-                                fontWeight: FontWeight.w500),
-                            colors: [
-                              ColorConstant.black,
-                              ColorConstant.black.withOpacity(0.6),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "|",
-                            style: TextStyle(
-                              color: ColorConstant.white,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: ColorConstant.white,
-                            size: 14,
-                          )
-                        ],
-                      )
-                    ],
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () {
+                    navigateToPage(BalanceScreen());
+                  },
+                  child: customCurrencyContainer(
+                    currecy: coin.value,
+                    image: ImageConstant.balance,
+                    title: "Your Balance",
+                    price: states?.balance.toString() ?? '0',
+                    backgroundColor: ColorConstant.lightPurple,
+                    iconColor: ColorConstant.purple,
+                    iconContainerColor: ColorConstant.white,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(CompletedScreen());
-                },
-                child: customCurrencyContainer(
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(DepositHistoryScreen());
+                  },
+                  child: customCurrencyContainer(
                     currecy: coin.value,
-                    image: ImageConstant.tick,
-                    title: "Completed",
-                    price: states?.completed.toString() ?? '0',
-                    currencyShow: false),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(DisputedScreen());
-                },
-                child: customCurrencyContainer(
+                    image: ImageConstant.deposit,
+                    title: "Deposit",
+                    price: states?.depositAmount.toString() ?? '0',
+                    backgroundColor: ColorConstant.lightTurquoise,
+                    iconColor: ColorConstant.turquoise,
+                    iconContainerColor: ColorConstant.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(WithdrawlogScreen());
+                  },
+                  child: customCurrencyContainer(
                     currecy: coin.value,
-                    image: ImageConstant.disputed,
-                    title: "Disputed",
-                    price: states?.disputed.toString() ?? '0',
-                    currencyShow: false),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(CanceledScreen());
-                },
-                child: customCurrencyContainer(
+                    image: ImageConstant.withdraw,
+                    title: "Withdrawal",
+                    price: states?.withdrawAmount.toString() ?? '0',
+                    backgroundColor: ColorConstant.lightMustard,
+                    iconColor: ColorConstant.mustard,
+                    iconContainerColor: ColorConstant.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(MilestoneScreen());
+                  },
+                  child: customCurrencyContainer(
                     currecy: coin.value,
-                    image: ImageConstant.cancelled,
-                    title: "Canceled",
-                    price: states?.cancelled.toString() ?? '0',
-                    currencyShow: false),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(TransactionScreen());
-                },
-                child: customCurrencyContainer(
-                    currecy: coin.value,
-                    image: ImageConstant.handHeart,
-                    title: "Your Escrow",
-                    price: states?.total.toString() ?? '0',
-                    currencyShow: false),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  navigateToPage(RuningEscrowScreen());
-                },
-                child: customCurrencyContainer(
-                    currecy: coin.value,
-                    image: ImageConstant.runningEscrow,
-                    title: "Running Escrow",
-                    price: states?.accepted.toString() ?? '0',
-                    currencyShow: false),
-              ),
-            ],
+                    image: ImageConstant.milestone,
+                    title: "Milestone funded",
+                    price: states?.milestoneAmount.toString() ?? '0',
+                    backgroundColor: ColorConstant.lightPink,
+                    iconColor: ColorConstant.pink,
+                    iconContainerColor: ColorConstant.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Escrows",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontFamily: FontConstant.jakartaMedium,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(AwaitingEscrowScreen());
+                  },
+                  child: Container(
+                    height: 64,
+                    width: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                      ColorConstant.lightGreen,
+                      ColorConstant.lightGreen2
+                    ])),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(136, 144, 152, 0.2),
+                              shape: BoxShape.circle),
+                          child: SvgPicture.asset(
+                            ImageConstant.time,
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: SizedBox(
+                            height: 36,
+                            child: GradientText(
+                              "Awaiting for Accept",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: FontConstant.jakartaMedium,
+                                  fontWeight: FontWeight.w500),
+                              colors: [
+                                ColorConstant.darkestGrey,
+                                ColorConstant.midNight,
+                              ],
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Row(
+                          children: [
+                            GradientText(
+                              states?.noAccepted.toString() ?? '0',
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  fontFamily: FontConstant.jakartaBold,
+                                  fontWeight: FontWeight.w500),
+                              colors: [
+                                ColorConstant.black,
+                                ColorConstant.black.withOpacity(0.6),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "|",
+                              style: TextStyle(
+                                color: ColorConstant.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: ColorConstant.white,
+                              size: 14,
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(CompletedScreen());
+                  },
+                  child: customCurrencyContainer(
+                      currecy: coin.value,
+                      image: ImageConstant.tick,
+                      title: "Completed",
+                      price: states?.completed.toString() ?? '0',
+                      currencyShow: false),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(DisputedScreen());
+                  },
+                  child: customCurrencyContainer(
+                      currecy: coin.value,
+                      image: ImageConstant.disputed,
+                      title: "Disputed",
+                      price: states?.disputed.toString() ?? '0',
+                      currencyShow: false),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(CanceledScreen());
+                  },
+                  child: customCurrencyContainer(
+                      currecy: coin.value,
+                      image: ImageConstant.cancelled,
+                      title: "Canceled",
+                      price: states?.cancelled.toString() ?? '0',
+                      currencyShow: false),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(TransactionScreen());
+                  },
+                  child: customCurrencyContainer(
+                      currecy: coin.value,
+                      image: ImageConstant.handHeart,
+                      title: "Your Escrow",
+                      price: states?.total.toString() ?? '0',
+                      currencyShow: false),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateToPage(RuningEscrowScreen());
+                  },
+                  child: customCurrencyContainer(
+                      currecy: coin.value,
+                      image: ImageConstant.runningEscrow,
+                      title: "Running Escrow",
+                      price: states?.accepted.toString() ?? '0',
+                      currencyShow: false),
+                ),
+              ],
+            ),
           ),
         ),
       ),

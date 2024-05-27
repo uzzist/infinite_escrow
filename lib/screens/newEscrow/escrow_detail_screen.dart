@@ -10,6 +10,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../../core/messages.dart';
 import '../../core/models/profile.dart';
+import '../dashboardScreen/widgets/milstoneScreen/milestone_list.dart';
 
 class EscrowDetailScreen extends StatefulWidget {
   int id;
@@ -261,6 +262,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                           profile?.id == model?.sellerId ? Text(
+
                             model?.buyerName ?? '',
                             style: TextStyle(
                                 color: ColorConstant.midNight,
@@ -622,7 +624,7 @@ class _EscrowDetailScreenState extends State<EscrowDetailScreen> {
                                   ),
                                   child: TextButton(
                                       onPressed: () {
-                                        navigateToPage(NewMileStoneScreen(
+                                        navigateToPage(MilestonelistScreen(
                                             id: model?.id ?? 0));
                                       },
                                       child: Row(

@@ -97,6 +97,10 @@ class HttpRequest extends BaseHttpRequest {
     var url = Uri.https(Constants.baseUrl, 'api/m/submit-milestone');
     return baseFormRequest(url, body);
   }
+  Future<ResponseBody> payMilestone(dynamic body) async {
+    var url = Uri.https(Constants.baseUrl, 'api/m/pay-milestone');
+    return baseFormRequest(url, body);
+  }
   Future<ResponseBody> fsEnable(dynamic body) async {
     var url = Uri.https(Constants.baseUrl, 'api/m/2fa/enable');
     return baseFormRequest(url, body);
@@ -179,7 +183,10 @@ class HttpRequest extends BaseHttpRequest {
     return get('api/m/withdraw/pending', {"": ""});
   }
   Future<ResponseBody> getMilestoneList() async {
-    return get('api/m/milestone/list', {"": ""});
+      return get('api/m/milestone/list', {"": ""});
+  }
+  Future<ResponseBody> getMilestonesList(int id) async {
+    return get('api/m/list-milestones', {"id": id.toString()});
   }
   Future<ResponseBody> getMilestonePendingList() async {
     return get('api/m/milestone/pending', {"": ""});

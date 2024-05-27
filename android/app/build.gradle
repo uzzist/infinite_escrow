@@ -13,7 +13,7 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '11'
+    flutterVersionCode = '12'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -57,7 +57,7 @@ android {
         release {
             keyAlias "key0"
             keyPassword "11223344"
-            storeFile file('C:\\Users\\123\\infinite_escrow\\keystore-infiniteesrcrow.jks')
+            storeFile file('C:\\Users\\123\\infinite_escrow\\keystore-infiniteescrow.jks')
             storePassword "11223344"
         }
     }
@@ -67,7 +67,7 @@ android {
             shrinkResources false
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
 }

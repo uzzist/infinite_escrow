@@ -6,13 +6,14 @@ class MilestoneModel{
   late String methodCurrency;
   late int status;
   late int id;
+  late int milestoneid;
   late DateTime createdAt;
   MilestoneModel({required this.note, required this.amount, required this.methodCurrency,
-    required this.status, required this.createdAt,required this.id});
+    required this.status, required this.createdAt,required this.id,required this.milestoneid});
   static fromList(List<dynamic> data){
     return data.map((e) => MilestoneModel(note: e['note'], amount: double.parse(e['amount']).toString() , methodCurrency: e['currency'] ?? 'NGN',
         status: e['payment_status']!= null? int.parse(e['payment_status'].toString()): 0, createdAt: DateTime.parse(e['created_at']),
-      id: e['escrow_id'] != null? int.parse(e['escrow_id'].toString()): 0,
+      id: e['escrow_id'] != null? int.parse(e['escrow_id'].toString()): 0, milestoneid: e['id'] != null? int.parse(e['id'].toString()): 0,
     )).toList();
   }
   getStatusString(){

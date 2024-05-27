@@ -76,11 +76,10 @@ class SnackBarMessage {
               width: 16,
             ),
             AppTypography(
-              text: message,
-              size: 14,
-              weight: FontWeight.w500,
-              color: HexColor('#333333')
-            )
+                text: message,
+                size: 14,
+                weight: FontWeight.w500,
+                color: HexColor('#333333'))
           ],
         ),
       ),
@@ -142,18 +141,20 @@ class SnackBarMessage {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static void showLoading(BuildContext context){
-    showDialog(context: context, barrierDismissible: false,
-      builder: (_){
-        return Dialog( backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          child: Container(
-            height: 250,
-            child: RiveAnimation.asset(ImageConstant.loadingAnimation),
-          ),
-        );
-      }
-    );
+  static void showLoading(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            child: Container(
+              height: 250,
+              child: RiveAnimation.asset(ImageConstant.loadingAnimation),
+            ),
+          );
+        });
   }
 }
 

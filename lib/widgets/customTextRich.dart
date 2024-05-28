@@ -1,5 +1,8 @@
 
 import 'package:infinite_escrow/routes/routes.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../core/messages.dart';
 Text customTextRich(BuildContext context) {
   return Text.rich(
     TextSpan(
@@ -13,7 +16,15 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: " Privacy Policy",
               recognizer: TapGestureRecognizer()
-                ..onTap = () => customBottomSheet(context, "Privacy Policy"),
+                ..onTap = () async {
+                  final Uri url = Uri.parse('https://infiniteescrow.com/policy/42/privacy-policy');
+                  if (!await launchUrl(
+                  url,
+                  )) {
+                  SnackBarMessage.errorSnackbar(
+                  context, 'Something went Wrong!');
+                  }
+                },
               style: TextStyle(
                   color: Theme.of(context).colorScheme.tertiary,
                   fontSize: 12,
@@ -30,7 +41,15 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: " Terms of Service",
               recognizer: TapGestureRecognizer()
-                ..onTap = () => customBottomSheet(context, "Terms of Service"),
+                ..onTap = () async {
+                  final Uri url = Uri.parse('https://infiniteescrow.com/policy/43/terms-of-service');
+                  if (!await launchUrl(
+                    url,
+                  )) {
+                    SnackBarMessage.errorSnackbar(
+                        context, 'Something went Wrong!');
+                  }
+                },
               style: TextStyle(
                   color:Theme.of(context).colorScheme.tertiary,
                   fontSize: 12,
@@ -47,7 +66,15 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: " Payment Policy",
               recognizer: TapGestureRecognizer()
-                ..onTap = () => customBottomSheet(context, "Payment Policy"),
+                ..onTap = () async {
+                  final Uri url = Uri.parse('https://infiniteescrow.com/policy/94/payment-policy');
+                  if (!await launchUrl(
+                    url,
+                  )) {
+                    SnackBarMessage.errorSnackbar(
+                        context, 'Something went Wrong!');
+                  }
+                },
               style: TextStyle(
                   color: Theme.of(context).colorScheme.tertiary,
                   fontSize: 12,
@@ -64,7 +91,15 @@ Text customTextRich(BuildContext context) {
           TextSpan(
               text: "  Company Rules",
               recognizer: TapGestureRecognizer()
-                ..onTap = () => customBottomSheet(context, "Company Rules"),
+                ..onTap = () async {
+                  final Uri url = Uri.parse('https://infiniteescrow.com/policy/95/company-rules');
+                  if (!await launchUrl(
+                    url,
+                  )) {
+                    SnackBarMessage.errorSnackbar(
+                        context, 'Something went Wrong!');
+                  }
+                },
               style: TextStyle(
                   color: Theme.of(context).colorScheme.tertiary,
                   fontSize: 12,

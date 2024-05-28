@@ -232,7 +232,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                // customTextRich(context)
+                customTextRich(context)
               ],
             ),
           ),
